@@ -1,5 +1,5 @@
 # laravel-example
 
-## Docker container
+## Laradock container
 
 ## Composer package
