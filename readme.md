@@ -1,5 +1,5 @@
 # laravel-example
-基于 Laravel，集成常用功能。
+基于 Laravel，集成常用功能。相关资料可在[我的文章](https://segmentfault.com/u/haoyq/articles)中查看。
 
 ## Laradock container
 环境使用 [Laradock](https://github.com/laradock/laradock) 搭建，已使用如下容器
