@@ -14,4 +14,5 @@
 | 名称 | 简介 | 备注 |
 | ---- | ---- | ---- |
 | [LaravelS](https://github.com/hhxsv5/laravel-s) | LaravelS是一个胶水项目，用于快速集成Swoole到Laravel或Lumen，然后赋予它们更好的性能、更多可能性。|  |
-| [laravel-debugbar](https://github.com/barryvdh/laravel-debugbar) | 调试工具 | dev |
+| [Laravel Debugbar](https://github.com/barryvdh/laravel-debugbar) | 调试工具 | dev |
+| [Laravel-lang](https://github.com/overtrue/laravel-lang) | 语言包 |  |
