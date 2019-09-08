@@ -13,3 +13,4 @@ yarn-error.log
 .idea/
 /storage/laravels.pid
 /storage/laravels.json
+/Envoy.blade.php
