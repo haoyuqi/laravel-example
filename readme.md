@@ -3,8 +3,7 @@
 
 ## 安装
 1. 搭建 [Laradock](https://github.com/laradock/laradock) 环境
-2. 根据下方所示 build 并且开启相关容器 `docker-compose build nginx mysql ...`
-、`docker-compose up -d nginx mysql ...`
+2. 根据下方所示 build 并且开启相关容器 `docker-compose build nginx mysql ...`、`docker-compose up -d nginx mysql ...`
 
 ## Laradock container
 环境使用 [Laradock](https://github.com/laradock/laradock) 搭建，已使用如下容器
