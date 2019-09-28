@@ -7,8 +7,9 @@
 3. 在 `workspace` 中依次执行
     1. `git clone https://github.com/haoyq02/laravel-example.git`
     2. `composer install`
-    3. `cp .env.example .env`
-    4. `php artisan key:generate`
+    3. `npm install`、`npm run dev`
+    4. `cp .env.example .env`
+    5. `php artisan key:generate`
 4. 修改 `.env` 中 `redis`、`mysql` 相关配置，`php artisan migrate`
 5. 服务器、域名配置   
 
