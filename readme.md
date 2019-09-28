@@ -25,4 +25,5 @@
 | 名称 | 简介 | 备注 |
 | ---- | ---- | ---- |
 | [Laravel Debugbar](https://github.com/barryvdh/laravel-debugbar) | 调试工具 | dev |
+| [Laravel IDE Helper Generator](https://github.com/barryvdh/laravel-ide-helper) | 开发工具 | dev |
 | [Laravel-lang](https://github.com/overtrue/laravel-lang) | 语言包 |  |
