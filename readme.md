@@ -26,4 +26,5 @@
 | ---- | ---- | ---- |
 | [Laravel Debugbar](https://github.com/barryvdh/laravel-debugbar) | 调试工具 | dev |
 | [Laravel IDE Helper Generator](https://github.com/barryvdh/laravel-ide-helper) | 开发工具 | dev |
+| [Laravel UI](https://github.com/laravel/ui) | Bootstrap 和 Vue 脚手架 | dev |
 | [Laravel-lang](https://github.com/overtrue/laravel-lang) | 语言包 |  |
