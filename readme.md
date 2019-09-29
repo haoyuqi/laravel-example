@@ -28,5 +28,5 @@
 | [Laravel Debugbar](https://github.com/barryvdh/laravel-debugbar) | 调试工具 | dev |
 | [Laravel IDE Helper Generator](https://github.com/barryvdh/laravel-ide-helper) | 开发工具 | dev |
 | [Laravel UI](https://github.com/laravel/ui) | Bootstrap 和 Vue 脚手架 |  |
-| [RabbitMQ Queue](https://github.com/vyuldashev/laravel-queue-rabbitmq#rabbitmq-queue-driver-for-laravel) | Bootstrap 和 Vue 脚手架 |  |
+| [RabbitMQ Queue](https://github.com/vyuldashev/laravel-queue-rabbitmq#rabbitmq-queue-driver-for-laravel) | RabbitMQ Queue driver for Laravel |  |
 | [Laravel-lang](https://github.com/overtrue/laravel-lang) | 语言包 |  |
