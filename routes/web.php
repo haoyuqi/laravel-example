@@ -14,3 +14,8 @@
 Route::get('/', 'IndexController@index');
 
 Route::get('/test', 'IndexController@test');
+
+// queue test
+Route::group(['prefix' => 'queue'], function ($route) {
+    $route->get('/create', 'QueueController@create');
+});
