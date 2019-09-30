@@ -30,3 +30,4 @@
 | [Laravel UI](https://github.com/laravel/ui) | Bootstrap 和 Vue 脚手架 |  |
 | [RabbitMQ Queue](https://github.com/vyuldashev/laravel-queue-rabbitmq#rabbitmq-queue-driver-for-laravel) | RabbitMQ Queue driver for Laravel |  |
 | [Laravel-lang](https://github.com/overtrue/laravel-lang) | 语言包 |  |
+| [Larastan](https://github.com/nunomaduro/larastan) | 代码静态检查 | dev |
