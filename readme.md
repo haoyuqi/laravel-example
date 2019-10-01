@@ -21,6 +21,8 @@
 * workspace
 * redis
 * memcached
+* php-worker
+* rabbitmq
 
 ## Composer Package
 | 名称 | 简介 | 备注 |
