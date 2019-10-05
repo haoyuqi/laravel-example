@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class ClearLog extends Command
 {
@@ -21,7 +21,7 @@ class ClearLog extends Command
      */
     protected $description = '清理日志';
 
-    protected $disk;
+    protected $path;
 
     protected $expires = 604800;// 7 天
 
@@ -34,7 +34,7 @@ class ClearLog extends Command
     {
         parent::__construct();
 
-        $this->disk = Storage::disk('logs');
+        $this->path = storage_path('logs');
     }
 
     /**
@@ -44,16 +44,16 @@ class ClearLog extends Command
      */
     public function handle()
     {
-        $logs = collect($this->disk->allFiles())
+        $logs = collect(File::files($this->path))
             ->filter(function ($file, $key) {
                 return (
                     $file != '.gitignore' &&
-                    time() - $this->disk->lastModified($file) > $this->expires
+                    time() - File::lastModified($file) > $this->expires
                 );
             });
 
         if ($logs->isNotEmpty()) {
-            $this->disk->delete($logs->toArray());
+            File::delete($logs->toArray());
         }
     }
 }
