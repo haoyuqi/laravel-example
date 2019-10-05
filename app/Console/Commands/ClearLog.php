@@ -47,7 +47,7 @@ class ClearLog extends Command
         $logs = collect(File::files($this->path))
             ->filter(function ($file, $key) {
                 return (
-                    $file != '.gitignore' &&
+                    basename($file) != '.gitignore' &&
                     time() - File::lastModified($file) > $this->expires
                 );
             });
