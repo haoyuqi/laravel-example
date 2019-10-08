@@ -14,7 +14,7 @@ class IndexTest extends TestCase
 
         $response->assertSuccessful()
             ->assertViewIs('welcome')
-            ->assertSeeTextInOrder(['laravel example', 'Hello World']);
+            ->assertSeeText('laravel example');
     }
 
 
