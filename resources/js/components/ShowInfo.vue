@@ -1,4 +1,5 @@
 <style scoped>
+    /*Fonts*/
     @import url("https://fonts.googleapis.com/css?family=Nunito:200,600");
 
     /*html, body {
