@@ -63,13 +63,15 @@
     <div class="flex-center position-ref full-height">
         <div class="content">
             <div class="title m-b-md">
-                Hello World
+                {{ info }}
             </div>
         </div>
     </div>
 </template>
 
 <script>
-    export default {}
+    export default {
+        props:['info']
+    }
 </script>
-`
+

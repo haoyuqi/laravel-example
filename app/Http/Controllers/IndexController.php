@@ -8,7 +8,7 @@ class IndexController extends Controller
 {
     public function index()
     {
-        return view('welcome');
+        return view('welcome', ['info' => 'Hello World']);
     }
 
     public function test()
