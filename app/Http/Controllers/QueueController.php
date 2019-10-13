@@ -20,11 +20,12 @@ class QueueController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return $validator->errors()->first();
+            $info = $validator->errors()->first();
+        } else {
+            dispatch(new QueueJob($request->input('count')));
+            $info = 'success';
         }
 
-        dispatch(new QueueJob($request->input('count')));
-
-        return 'success';
+        return view('queue.create', ['info' => $info]);
     }
 }
