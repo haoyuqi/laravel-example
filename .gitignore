@@ -14,3 +14,4 @@ yarn-error.log
 /Envoy.blade.php
 /_ide_helper.php
 /.phpstorm.meta.php
+/database/snapshots/
