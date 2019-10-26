@@ -6,7 +6,7 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class IndexTest extends TestCase
+class IndexControllerTest extends TestCase
 {
     public function testIndex()
     {
