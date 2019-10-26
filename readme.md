@@ -27,9 +27,10 @@
 ## Composer Package
 | 名称 | 简介 | 备注 |
 | ---- | ---- | ---- |
-| [Laravel Debugbar](https://github.com/barryvdh/laravel-debugbar) | 调试工具 | dev |
+| [Laravel Debugbar](https://github.com/barryvdh/laravel-debugbar) | 页面调试工具 | dev |
 | [Laravel IDE Helper Generator](https://github.com/barryvdh/laravel-ide-helper) | IDE 开发工具 | dev |
 | [Laravel UI](https://github.com/laravel/ui) | Bootstrap 和 Vue 脚手架 |  |
-| [RabbitMQ Queue](https://github.com/vyuldashev/laravel-queue-rabbitmq#rabbitmq-queue-driver-for-laravel) | RabbitMQ Queue driver for Laravel |  |
+| [RabbitMQ Queue](https://github.com/vyuldashev/laravel-queue-rabbitmq#rabbitmq-queue-driver-for-laravel) | RabbitMQ 队列驱动 |  |
 | [Laravel-lang](https://github.com/overtrue/laravel-lang) | 语言包 |  |
 | [Larastan](https://github.com/nunomaduro/larastan) | 代码静态检查 | dev |
+| [laravel-db-snapshots](https://github.com/spatie/laravel-db-snapshots) | 数据库备份工具 | |
