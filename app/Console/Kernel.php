@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Console\Commands\ClearLog;
+use App\Console\Commands\SyncDBBackup;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -15,6 +16,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         ClearLog::class,
+        SyncDBBackup::class,
     ];
 
     /**
@@ -27,8 +29,9 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
+        $schedule->command('snapshot:create')->dailyAt('00:01');
+        $schedule->command('sync:db-backup')->dailyAt('00:02');
         $schedule->command('clear:log')->dailyAt('01:00');
-        $schedule->command('snapshot:create')->dailyAt('00:30');
     }
 
     /**

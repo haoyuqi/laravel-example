@@ -22,4 +22,6 @@ return [
      * Create dump files that are gzipped
      */
     'compress' => false,
+
+    'db_backup_host' => env('DB_BACKUP_HOST'),
 ];
