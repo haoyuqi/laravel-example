@@ -42,6 +42,5 @@ class QueueControllerTest extends TestCase
             ->assertViewIs('queue.create')
             ->assertSeeText('laravel example')
             ->assertViewHas('info', 'success');
-
     }
 }
