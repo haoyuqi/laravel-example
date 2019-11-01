@@ -23,6 +23,7 @@
 * memcached
 * php-worker
 * rabbitmq
+* laravel-horizon
 
 ## Composer Package
 | 名称 | 简介 | 备注 |
