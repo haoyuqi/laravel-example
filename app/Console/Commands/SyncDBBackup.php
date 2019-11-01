@@ -46,6 +46,8 @@ class SyncDBBackup extends Command
             config('db-snapshots.db_backup_host')
         ]);
 
+        $process->setTimeout(0);
+
         $process->run();
     }
 }
