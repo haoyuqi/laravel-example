@@ -6,6 +6,10 @@
  */
 
 if (!function_exists('get_real_ip')) {
+    /**
+     * 获取 IP
+     * @return array|string|null
+     */
     function get_real_ip()
     {
         return request()->hasHeader('X-Real-IP') ? request()->header('X-Real-IP') : request()->getClientIp();
@@ -13,6 +17,11 @@ if (!function_exists('get_real_ip')) {
 }
 
 if (!function_exists('bubble_sort')) {
+    /**
+     * 冒泡排序
+     * @param array $arr
+     * @return array
+     */
     function bubble_sort(array $arr)
     {
         $count = count($arr);
