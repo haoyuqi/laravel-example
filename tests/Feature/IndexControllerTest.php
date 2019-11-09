@@ -18,6 +18,15 @@ class IndexControllerTest extends TestCase
             ->assertViewHas('info', 'Hello World');
     }
 
+    public function testError()
+    {
+        $response = $this->get('/error');
+
+        $response->assertSuccessful()
+            ->assertViewIs('error')
+            ->assertSeeText('laravel example')
+            ->assertViewHas('info', 'No Message');
+    }
 
     public function testTest()
     {
