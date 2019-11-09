@@ -12,7 +12,7 @@
 */
 
 Route::get('/', 'IndexController@index');
-
+Route::get('/error', 'IndexController@error');
 Route::get('/test', 'IndexController@test');
 
 // queue test
