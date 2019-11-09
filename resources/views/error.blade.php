@@ -13,7 +13,11 @@
     </head>
     <body>
         <div id="app">
-            <show-info info="{{ $info }}"></show-info>
+            @if($errors->any())
+                <show-info info="{{ $errors->first() }}"></show-info>
+            @else
+                <show-info info="{{ $info }}"></show-info>
+            @endif
         </div>
     <script src="{{ asset('js/app.js') }}"></script>
     </body>
