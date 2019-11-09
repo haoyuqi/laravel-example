@@ -10,7 +10,7 @@ class QueueController extends Controller
 {
     /**
      * 创建队列
-     * @param Request $request
+     * @param CheckCountRequest $request
      * @return string
      */
     public function create(CheckCountRequest $request)
