@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\CheckCountRequest;
 
 class SortController extends Controller
 {
-    public function bubbleSort()
+    public function bubbleSort(CheckCountRequest $request)
     {
-        return 'bubble sort';
+        $arr = range(1, $request->input('count'));
+        shuffle($arr);
+
+        return response()->json(bubble_sort($arr));
     }
 }
