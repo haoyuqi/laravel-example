@@ -19,3 +19,8 @@ Route::get('/test', 'IndexController@test');
 Route::group(['prefix' => 'queue'], function ($route) {
     $route->get('/create', 'QueueController@create');
 });
+
+// sort
+Route::group(['prefix' => 'sort'], function ($route) {
+    $route->get('/bubble', 'SortController@bubbleSort');
+});
