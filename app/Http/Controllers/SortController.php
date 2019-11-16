@@ -13,9 +13,21 @@ class SortController extends Controller
      */
     public function bubbleSort(CheckCountRequest $request)
     {
-        $arr = range(1, $request->input('count'));
-        shuffle($arr);
+        $arr = $this->getShuffleArray($request->input('count'));
 
         return response()->json(bubble_sort($arr));
+    }
+
+    /**
+     * 获取 shuffle 后的数组
+     * @param $count
+     * @return array
+     */
+    protected function getShuffleArray($count)
+    {
+        $arr = range(1, $count);
+        shuffle($arr);
+
+        return $arr;
     }
 }
