@@ -23,4 +23,5 @@ Route::group(['prefix' => 'queue'], function ($route) {
 // sort
 Route::group(['prefix' => 'sort'], function ($route) {
     $route->get('/bubble', 'SortController@bubbleSort');
+    $route->get('/quick', 'SortController@quickSort');
 });
