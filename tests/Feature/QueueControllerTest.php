@@ -26,9 +26,14 @@ class QueueControllerTest extends TestCase
             ->assertRedirect(url()->action('IndexController@error'))
             ->assertSessionHasErrors(['count']);
 
-        $array = [0, mt_rand(10001, mt_getrandmax())];
-        $key = array_rand($array);
-        $response = $this->get('/queue/create?count=' . $array[$key]);
+        $count = 0;
+        $response = $this->get('/queue/create?count=' . $count);
+        $response->assertStatus(302)
+            ->assertRedirect(url()->action('IndexController@error'))
+            ->assertSessionHasErrors(['count']);
+
+        $count = mt_rand(10001, mt_getrandmax());
+        $response = $this->get('/queue/create?count=' . $count);
         $response->assertStatus(302)
             ->assertRedirect(url()->action('IndexController@error'))
             ->assertSessionHasErrors(['count']);

@@ -22,9 +22,14 @@ class SortControllerTest extends TestCase
             ->assertRedirect(url()->action('IndexController@error'))
             ->assertSessionHasErrors(['count']);
 
-        $array = [0, mt_rand(10001, mt_getrandmax())];
-        $key = array_rand($array);
-        $response = $this->get('/sort/bubble?count=' . $array[$key]);
+        $count = 0;
+        $response = $this->get('/sort/bubble?count=' . $count);
+        $response->assertStatus(302)
+            ->assertRedirect(url()->action('IndexController@error'))
+            ->assertSessionHasErrors(['count']);
+
+        $count = mt_rand(10001, mt_getrandmax());
+        $response = $this->get('/sort/bubble?count=' . $count);
         $response->assertStatus(302)
             ->assertRedirect(url()->action('IndexController@error'))
             ->assertSessionHasErrors(['count']);
@@ -52,9 +57,14 @@ class SortControllerTest extends TestCase
             ->assertRedirect(url()->action('IndexController@error'))
             ->assertSessionHasErrors(['count']);
 
-        $array = [0, mt_rand(10001, mt_getrandmax())];
-        $key = array_rand($array);
-        $response = $this->get('/sort/quick?count=' . $array[$key]);
+        $count = 0;
+        $response = $this->get('/sort/quick?count=' . $count);
+        $response->assertStatus(302)
+            ->assertRedirect(url()->action('IndexController@error'))
+            ->assertSessionHasErrors(['count']);
+
+        $count = mt_rand(10001, mt_getrandmax());
+        $response = $this->get('/sort/quick?count=' . $count);
         $response->assertStatus(302)
             ->assertRedirect(url()->action('IndexController@error'))
             ->assertSessionHasErrors(['count']);
