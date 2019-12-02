@@ -32,7 +32,7 @@ class SortController extends Controller
 
     /**
      * 获取 shuffle 后的数组
-     * @param $count
+     * @param int $count
      * @return array
      */
     protected function getShuffleArray($count)
