@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e865661f43a32cd94eac0bf9acbcb95e",
+    "content-hash": "dbe74b48f70438e75542428a65deb39f",
     "packages": [
         {
             "name": "cakephp/chronos",
@@ -653,6 +653,48 @@
                 "trusted proxy"
             ],
             "time": "2019-12-20T13:11:11+00:00"
+        },
+        {
+            "name": "haoyuqi/sort-function",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/haoyuqi/sort-function.git",
+                "reference": "3d1341fe81c7d50a1406cf0a3c9547ab4bb3f592"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/haoyuqi/sort-function/zipball/3d1341fe81c7d50a1406cf0a3c9547ab4bb3f592",
+                "reference": "3d1341fe81c7d50a1406cf0a3c9547ab4bb3f592",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Hao Yuqi",
+                    "email": "hi.haoyuqi+github@gmail.com"
+                }
+            ],
+            "description": "PHP sort functions",
+            "time": "2020-02-24T11:17:54+00:00"
         },
         {
             "name": "jakub-onderka/php-console-color",
