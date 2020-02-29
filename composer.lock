@@ -656,16 +656,16 @@
         },
         {
             "name": "haoyuqi/sort-function",
-            "version": "v1.0.1",
+            "version": "v1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/haoyuqi/sort-function.git",
-                "reference": "3d1341fe81c7d50a1406cf0a3c9547ab4bb3f592"
+                "reference": "a3b8dbb872f44658e9dcd01ff23401a37e0ab03a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/haoyuqi/sort-function/zipball/3d1341fe81c7d50a1406cf0a3c9547ab4bb3f592",
-                "reference": "3d1341fe81c7d50a1406cf0a3c9547ab4bb3f592",
+                "url": "https://api.github.com/repos/haoyuqi/sort-function/zipball/a3b8dbb872f44658e9dcd01ff23401a37e0ab03a",
+                "reference": "a3b8dbb872f44658e9dcd01ff23401a37e0ab03a",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -694,7 +694,7 @@
                 }
             ],
             "description": "PHP sort functions",
-            "time": "2020-02-24T11:17:54+00:00"
+            "time": "2020-02-29T05:38:46+00:00"
         },
         {
             "name": "jakub-onderka/php-console-color",
