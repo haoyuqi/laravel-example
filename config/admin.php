@@ -11,7 +11,7 @@ return [
     | login page.
     |
     */
-    'name' => 'Laravel-example',
+    'name' => 'Laravel Example',
 
     /*
     |--------------------------------------------------------------------------
@@ -22,7 +22,7 @@ return [
     | `img` tag, eg '<img src="http://logo-url" alt="Admin logo">'.
     |
     */
-    'logo' => '<b>Laravel</b> example',
+    'logo' => '<b>Laravel Example</b>',
 
     /*
     |--------------------------------------------------------------------------
