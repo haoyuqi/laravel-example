@@ -39,3 +39,4 @@
 | [Laravel Telescope](https://github.com/laravel/telescope) | 调试工具 | dev |
 | [Sort functions](https://github.com/haoyuqi/sort-function) | 排序函数 | 练习用开发的 Composer 包 |
 | [Laravel-admin](https://github.com/z-song/laravel-admin) | 管理后台 |  |
+| [Log viewer](https://github.com/laravel-admin-extensions/log-viewer) | 后台插件 | Laravel-admin 插件 |
