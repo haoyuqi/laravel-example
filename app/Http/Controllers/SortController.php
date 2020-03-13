@@ -6,52 +6,40 @@ use App\Http\Requests\CheckCountRequest;
 
 class SortController extends Controller
 {
+    private $shuffleArr;
+
+    public function __construct(CheckCountRequest $request)
+    {
+        $arr = range(1, $request->input('count'));
+        shuffle($arr);
+
+        $this->shuffleArr = $arr;
+    }
+
     /**
      * 冒泡排序
-     * @param CheckCountRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function bubbleSort(CheckCountRequest $request)
+    public function bubbleSort()
     {
-        $arr = $this->getShuffleArray($request->input('count'));
-
-        return response()->json(bubble_sort($arr));
+        return response()->json(bubble_sort($this->shuffleArr));
     }
 
     /**
      * 快速排序
-     * @param CheckCountRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function quickSort(CheckCountRequest $request)
+    public function quickSort()
     {
-        $arr = $this->getShuffleArray($request->input('count'));
-
-        return response()->json(quick_sort($arr));
+        return response()->json(quick_sort($this->shuffleArr));
     }
 
     /**
      * 选择排序
-     * @param CheckCountRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function selectSort(CheckCountRequest $request)
+    public function selectSort()
     {
-        $arr = $this->getShuffleArray($request->input('count'));
-
-        return response()->json(select_sort($arr));
-    }
-
-    /**
-     * 获取 shuffle 后的数组
-     * @param int $count
-     * @return array
-     */
-    protected function getShuffleArray($count)
-    {
-        $arr = range(1, $count);
-        shuffle($arr);
-
-        return $arr;
+        return response()->json(select_sort($this->shuffleArr));
     }
 }
