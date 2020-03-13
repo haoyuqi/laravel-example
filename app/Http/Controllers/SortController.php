@@ -31,6 +31,18 @@ class SortController extends Controller
     }
 
     /**
+     * 选择排序
+     * @param CheckCountRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function selectSort(CheckCountRequest $request)
+    {
+        $arr = $this->getShuffleArray($request->input('count'));
+
+        return response()->json(select_sort($arr));
+    }
+
+    /**
      * 获取 shuffle 后的数组
      * @param int $count
      * @return array
