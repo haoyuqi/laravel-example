@@ -1,5 +1,5 @@
-describe('Demo Test', function () {
-    it('First', function () {
+describe('Demo Test', () => {
+    it('First', () => {
         expect(true).to.equal(true);
     });
 });
