@@ -113,4 +113,40 @@ class SortControllerTest extends TestCase
             ->assertExactJson($arr)
             ->assertSeeTextInOrder($arr);
     }
+
+    public function testInsertSort()
+    {
+        $response = $this->get('/sort/insert');
+        $response->assertStatus(302)
+            ->assertRedirect(url()->action('IndexController@error'))
+            ->assertSessionHasErrors(['count']);
+
+        $string = chr(mt_rand(97, 122));
+        $response = $this->get('/sort/insert?count=' . $string);
+        $response->assertStatus(302)
+            ->assertRedirect(url()->action('IndexController@error'))
+            ->assertSessionHasErrors(['count']);
+
+        $count = 0;
+        $response = $this->get('/sort/insert?count=' . $count);
+        $response->assertStatus(302)
+            ->assertRedirect(url()->action('IndexController@error'))
+            ->assertSessionHasErrors(['count']);
+
+        $count = mt_rand(10001, mt_getrandmax());
+        $response = $this->get('/sort/insert?count=' . $count);
+        $response->assertStatus(302)
+            ->assertRedirect(url()->action('IndexController@error'))
+            ->assertSessionHasErrors(['count']);
+
+
+        $count = mt_rand(1, 10000);
+        $arr = range(1, $count);
+        $response = $this->get('/sort/insert?count=' . $count);
+        $response->assertSuccessful()
+            ->assertJsonCount($count)
+            ->assertExactJson($arr)
+            ->assertSeeTextInOrder($arr);
+    }
+
 }
