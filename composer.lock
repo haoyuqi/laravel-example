@@ -996,16 +996,16 @@
         },
         {
             "name": "haoyuqi/sort-function",
-            "version": "v1.3.0",
+            "version": "1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/haoyuqi/sort-function.git",
-                "reference": "f23f71829f5f054eaaf7befdd71e0921dcaa7f27"
+                "reference": "a7d3203cbac8cc0a0073c8d573bcde6d3801d7d7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/haoyuqi/sort-function/zipball/f23f71829f5f054eaaf7befdd71e0921dcaa7f27",
-                "reference": "f23f71829f5f054eaaf7befdd71e0921dcaa7f27",
+                "url": "https://api.github.com/repos/haoyuqi/sort-function/zipball/a7d3203cbac8cc0a0073c8d573bcde6d3801d7d7",
+                "reference": "a7d3203cbac8cc0a0073c8d573bcde6d3801d7d7",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -1034,7 +1034,7 @@
                 }
             ],
             "description": "PHP sort functions",
-            "time": "2020-03-13T12:58:43+00:00"
+            "time": "2020-04-05T05:58:18+00:00"
         },
         {
             "name": "jakub-onderka/php-console-color",
@@ -1082,6 +1082,7 @@
                     "email": "jakub.onderka@gmail.com"
                 }
             ],
+            "abandoned": "php-parallel-lint/php-console-color",
             "time": "2018-09-29T17:23:10+00:00"
         },
         {
@@ -1134,6 +1135,7 @@
                 }
             ],
             "description": "Highlight PHP code in terminal",
+            "abandoned": "php-parallel-lint/php-console-highlighter",
             "time": "2018-09-29T18:48:56+00:00"
         },
         {

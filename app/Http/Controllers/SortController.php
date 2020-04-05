@@ -42,4 +42,13 @@ class SortController extends Controller
     {
         return response()->json(select_sort($this->shuffleArr));
     }
+
+    /**
+     * 插入排序
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function insertSort()
+    {
+        return response()->json(insert_sort($this->shuffleArr));
+    }
 }
