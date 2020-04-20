@@ -1,4 +1,4 @@
-# laravel-example
+# Laravel Example
 基于 Laravel，集成常用功能。相关资料可在[我的文章](https://segmentfault.com/u/haoyq/articles)中查看。
 
 ## 安装
