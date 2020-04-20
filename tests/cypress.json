@@ -1,1 +1,4 @@
-{}
+{
+    "testFiles": "**/*.feature",
+    "pageLoadTimeout": 100000
+}

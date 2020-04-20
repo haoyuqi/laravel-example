@@ -19,3 +19,4 @@ yarn-error.log
 /public/js/app.js
 /tests/cypress/videos/
 /tests/cypress.env.json
+/tests/cypress/.DS_Store
