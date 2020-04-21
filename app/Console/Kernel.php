@@ -30,7 +30,7 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')
         //          ->hourly();
         $schedule->command('snapshot:create --compress')->dailyAt('00:01');
-        $schedule->command('sync:db-backup')->dailyAt('00:02');
+        // $schedule->command('sync:db-backup')->dailyAt('00:02');
         $schedule->command('clear:files')->dailyAt('00:30');
         $schedule->command('horizon:snapshot')->everyFiveMinutes();
     }
