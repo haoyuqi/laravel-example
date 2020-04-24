@@ -143,8 +143,8 @@ return [
         'production' => [
             'supervisor-1' => [
                 'connection' => 'rabbitmq',
-                'queue' => ['default'],
-                'balance' => 'simple',
+                'queue' => ['queue-test'],
+                'balance' => 'auto',
                 'processes' => 4,
                 'tries' => 3,
             ],
