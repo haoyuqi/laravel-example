@@ -153,7 +153,7 @@ return [
         'local' => [
             'supervisor-1' => [
                 'connection' => 'rabbitmq',
-                'queue' => ['default'],
+                'queue' => ['queue-test'],
                 'balance' => 'simple',
                 'processes' => 3,
                 'tries' => 3,
