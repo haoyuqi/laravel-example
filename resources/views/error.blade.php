@@ -12,7 +12,7 @@
 
     </head>
     <body>
-        <div id="app">
+        <div id="app" v-cloak>
             @if($errors->any())
                 <show-info info="{{ $errors->first() }}"></show-info>
             @else

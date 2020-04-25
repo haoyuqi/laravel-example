@@ -25,7 +25,7 @@
             @endauth
         </div>
     @endif--}}
-        <div id="app">
+        <div id="app" v-cloak>
             <show-info info="{{ $info }}"></show-info>
         </div>
     <script src="{{ asset('js/app.js') }}"></script>

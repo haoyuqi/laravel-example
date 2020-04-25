@@ -16,8 +16,11 @@
         background-color: #fff;
         color: #636b6f;
         font-family: 'Nunito', sans-serif;
-        font-weight: 200;
         margin: 0;
+    }
+
+    .show-info-content {
+        font-weight: 200;
     }
 
     .flex-center {
@@ -62,7 +65,7 @@
 <template>
     <div class="flex-center position-ref full-height">
         <div class="content">
-            <div class="title m-b-md">
+            <div class="title m-b-md show-info-content">
                 {{ info }}
             </div>
         </div>
