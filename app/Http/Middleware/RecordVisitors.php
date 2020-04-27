@@ -15,8 +15,10 @@ class RecordVisitors
      */
     public function handle($request, Closure $next)
     {
-        $ip = get_real_ip();
-        $url = $request->getRequestUri();
+
+        dispatch(
+            new \App\Jobs\RecordVisitors(get_real_ip(), $request->getRequestUri())
+        )->onQueue('record-visitors');
 
         return $next($request);
     }
