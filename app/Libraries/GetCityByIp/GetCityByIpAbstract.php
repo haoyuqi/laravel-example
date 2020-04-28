@@ -17,7 +17,6 @@ abstract class GetCityByIpAbstract
 
     protected function checkIp($ip)
     {
-        // todo
-        return true;
+        return is_ip($ip);
     }
 }
