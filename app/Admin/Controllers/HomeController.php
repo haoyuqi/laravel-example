@@ -14,9 +14,8 @@ class HomeController extends Controller
     {
         return $content
             ->title('Dashboard')
-            ->description('Description...')
+            ->row(view('admin.title'))
             ->row(function (Row $row) {
-
                 $row->column(4, function (Column $column) {
                     $column->append(Dashboard::environment());
                 });
