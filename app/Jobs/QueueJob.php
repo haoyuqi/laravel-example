@@ -27,6 +27,7 @@ class QueueJob implements ShouldQueue
      */
     public function __construct(int $count)
     {
+        $this->queue = 'queue-test';
         $this->count = $count;
     }
 

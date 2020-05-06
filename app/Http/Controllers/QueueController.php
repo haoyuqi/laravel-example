@@ -15,7 +15,7 @@ class QueueController extends Controller
      */
     public function create(CheckCountRequest $request)
     {
-        dispatch(new QueueJob($request->input('count')))->onQueue('queue-test');
+        dispatch(new QueueJob($request->input('count')));
 
         return view('queue.create', ['info' => 'success']);
     }

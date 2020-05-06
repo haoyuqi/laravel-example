@@ -32,6 +32,7 @@ class RecordVisitors implements ShouldQueue
      */
     public function __construct($ip, $url)
     {
+        $this->queue = 'record-visitors';
         $this->ip = $ip;
         $this->url = $url;
     }
