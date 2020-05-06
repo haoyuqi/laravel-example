@@ -20,3 +20,4 @@ yarn-error.log
 /tests/cypress/videos/
 /tests/cypress.env.json
 /tests/cypress/.DS_Store
+/tests/cypress/screenshots/
