@@ -13,7 +13,7 @@ jobs:
       mysql:
         image: mysql:5.7
         env:
-          MYSQL_ROOT_PASSWORD: password
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
           MYSQL_DATABASE: laravel
         ports:
           - 3306
@@ -31,7 +31,7 @@ jobs:
         run: chmod -R 777 storage bootstrap/cache
       - name: Database Migrate
         env:
-          DB_PASSWORD: password
+          DB_PORT: ${{ job.services.mysql.ports[3306] }}
         run:
           php artisan migrate
       - name: Execute tests (Unit and Feature tests) via PHPUnit
