@@ -16,7 +16,7 @@ jobs:
           MYSQL_ROOT_PASSWORD: password
           MYSQL_DATABASE: laravel
         ports:
-          - 33306:3306
+          - 3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
@@ -31,7 +31,6 @@ jobs:
         run: chmod -R 777 storage bootstrap/cache
       - name: Database Migrate
         env:
-          DB_HOST: mysql
           DB_PASSWORD: password
         run:
           php artisan migrate
