@@ -43,11 +43,3 @@ jobs:
         run:
           php artisan migrate
 
-  phpunit-test:
-    name: PHPunit Test
-    needs: build
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: phpunit
-        run: vendor/bin/phpunit
