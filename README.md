@@ -3,7 +3,6 @@
 
 <p align="center">
     <a href="https://github.com/haoyuqi/laravel-example/actions"><img src="https://github.com/haoyuqi/laravel-example/workflows/.github/workflows/ci.yml/badge.svg?branch=master"></a>
-    
 </p>
 
 ## 安装
