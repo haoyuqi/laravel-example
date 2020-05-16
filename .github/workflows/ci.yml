@@ -66,6 +66,11 @@ jobs:
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+      redis:
+        image: redis
+        ports:
+          - 6379:6379
+        options: --name redis
 
     steps:
       - uses: actions/checkout@v2
@@ -86,9 +91,28 @@ jobs:
         run: chmod -R 777 storage bootstrap/cache
       - name: Database Migrate
         run: php artisan migrate
+      - name: Start PHP Web Server
+        run: nohub php -S localhost -t ${{ github.workspace }}/public &
       - name: LaraStan
         run: php artisan code:analyse --paths="app,config"
         continue-on-error: true
       - name: PHPunit Test
         run: vendor/bin/phpunit
+      - name: Cypress Test
+        uses: cypress-io/github-action@v1
+        with:
+          install: false
+          working-directory: tests
+          env: HOST=http://localhost
+          wait-on: 'http://localhost'
+      - uses: actions/upload-artifact@v1
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: tests/cypress/screenshots
+      - uses: actions/upload-artifact@v1
+        if: always()
+        with:
+          name: cypress-videos
+          path: tests/cypress/videos
 
