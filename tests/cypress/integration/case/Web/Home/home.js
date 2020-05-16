@@ -1,7 +1,7 @@
 import {Given, Then} from "cypress-cucumber-preprocessor/steps";
 
 Given('Open web site', () => {
-    cy.visit(Cypress.env('host'));
+    cy.visit(Cypress.env('HOST'));
 });
 
 Then('See text', () => {
