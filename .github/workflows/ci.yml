@@ -92,7 +92,7 @@ jobs:
       - name: Database Migrate
         run: php artisan migrate
       - name: Start PHP Web Server
-        run: nohup php -S localhost -t ${{ github.workspace }}/public &
+        run: nohup php -S localhost:8000 -t ${{ github.workspace }}/public &
       - name: LaraStan
         run: php artisan code:analyse --paths="app,config"
         continue-on-error: true
@@ -103,8 +103,8 @@ jobs:
         with:
           install: false
           working-directory: tests
-          env: HOST=http://localhost
-          wait-on: 'http://localhost'
+          env: HOST=http://localhost:8000
+          wait-on: 'http://localhost:8000'
       - uses: actions/upload-artifact@v1
         if: failure()
         with:
