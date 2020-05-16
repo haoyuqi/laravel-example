@@ -92,7 +92,7 @@ jobs:
       - name: Database Migrate
         run: php artisan migrate
       - name: Start PHP Web Server
-        run: nohub php -S localhost -t ${{ github.workspace }}/public &
+        run: nohup php -S localhost -t ${{ github.workspace }}/public &
       - name: LaraStan
         run: php artisan code:analyse --paths="app,config"
         continue-on-error: true
