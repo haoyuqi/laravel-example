@@ -17,7 +17,5 @@ yarn-error.log
 /database/snapshots/
 /public/css/app.css
 /public/js/app.js
-/tests/cypress/videos/
 /tests/cypress.env.json
 /tests/cypress/.DS_Store
-/tests/cypress/screenshots/
