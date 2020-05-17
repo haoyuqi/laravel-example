@@ -105,6 +105,8 @@ jobs:
           working-directory: tests
           env: HOST=http://localhost:8000
           wait-on: 'http://localhost:8000'
+        env:
+          - DEBUGBAR_ENABLED: false
       - uses: actions/upload-artifact@v1
         if: failure()
         with:
@@ -116,3 +118,114 @@ jobs:
           name: cypress-videos
           path: tests/cypress/videos
 
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    needs: [build,test]
+
+  strategy:
+    matrix:
+      node-version: [13]
+
+  steps:
+    - uses: actions/checkout@v2
+    - name: Copy .env
+      run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+    - name: Composer Install
+      run: composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
+    - uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Npm Install And Build
+      run: |
+        npm install
+        npm run prod
+    - name: Laravel Down
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.KEY }}
+        script: ${{ secrets.WORKSPACE_CONTAINER }} 'cd ${{ secrets.WORKSPACE_CODE_PATH }} && php artisan down'
+    - name: Git Clean
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.KEY }}
+        script: ${{ secrets.WORKSPACE_CONTAINER }} 'cd ${{ secrets.WORKSPACE_CODE_PATH }} && git reset --hard && git clean -df'
+    - name: Git Pull
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.KEY }}
+        script: ${{ secrets.WORKSPACE_CONTAINER }} 'cd ${{ secrets.WORKSPACE_CODE_PATH }} && git pull origin master'
+    - name: Laravel Clear Cache
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.KEY }}
+        script: |
+          ${{ secrets.WORKSPACE_CONTAINER }} 'cd ${{ secrets.WORKSPACE_CODE_PATH }} && php artisan config:clear'
+          ${{ secrets.WORKSPACE_CONTAINER }} 'cd ${{ secrets.WORKSPACE_CODE_PATH }} && php artisan route:clear'
+          ${{ secrets.WORKSPACE_CONTAINER }} 'cd ${{ secrets.WORKSPACE_CODE_PATH }} && php artisan view:clear'
+          ${{ secrets.WORKSPACE_CONTAINER }} 'cd ${{ secrets.WORKSPACE_CODE_PATH }} && php artisan event:clear'
+    - name: Compose Install
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.KEY }}
+        script: |
+          ${{ secrets.WORKSPACE_CONTAINER }} 'cd ${{ secrets.WORKSPACE_CODE_PATH }} && compose clear'
+          ${{ secrets.WORKSPACE_CONTAINER }} 'cd ${{ secrets.WORKSPACE_CODE_PATH }} && composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist --no-dev'
+    - name: Node Deploy
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.KEY }}
+        strip_components: 1
+        source: "public/js/*.js,public/css/*.css,public/mix-manifest.json"
+        target: "${{ secrets.CODE_PATH }}/public/"
+    - name: Laravel Migrate
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.KEY }}
+        script: ${{ secrets.WORKSPACE_CONTAINER }} 'cd ${{ secrets.WORKSPACE_CODE_PATH }} && php artisan migrate --force'
+    - name: Laravel Queue Restart
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.KEY }}
+        script: ${{ secrets.PHP_WORKER_CONTAINER }} 'cd ${{ secrets.PHP_WORKER_CODE_PATH }} && php artisan queue:restart'
+    - name: Laravel Horizon Restart
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.KEY }}
+        script: ${{ secrets.LARAVEL_HORIZON_CONTAINER }} 'cd ${{ secrets.LARAVEL_HORIZON_CODE_PATH }} && php artisan horizon:terminate'
+    - name: Laravel Cache
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.KEY }}
+        script: |
+          ${{ secrets.WORKSPACE_CONTAINER }} 'cd ${{ secrets.WORKSPACE_CODE_PATH }} && php artisan config:cache'
+          ${{ secrets.WORKSPACE_CONTAINER }} 'cd ${{ secrets.WORKSPACE_CODE_PATH }} && php artisan route:cache'
+          ${{ secrets.WORKSPACE_CONTAINER }} 'cd ${{ secrets.WORKSPACE_CODE_PATH }} && php artisan view:cache'
+          ${{ secrets.WORKSPACE_CONTAINER }} 'cd ${{ secrets.WORKSPACE_CODE_PATH }} && php artisan event:cache'
+    - name: Laravel Up
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.KEY }}
+        script: ${{ secrets.WORKSPACE_CONTAINER }} 'cd ${{ secrets.WORKSPACE_CODE_PATH }} && php artisan up'
