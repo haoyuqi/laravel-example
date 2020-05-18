@@ -96,8 +96,8 @@ jobs:
         run: chmod -R 777 storage bootstrap/cache
       - name: Database Migrate
         run: php artisan migrate
-      - name: Start PHP Web Server
-        run: nohup php -S localhost:8000 -t ${{ github.workspace }}/public &
+      - name: Start Web Server
+        run: php artisan serve --host localhost --port 8000 &
       - name: LaraStan
         run: php artisan code:analyse --paths="app,config"
         continue-on-error: true
