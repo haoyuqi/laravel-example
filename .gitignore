@@ -15,7 +15,8 @@ yarn-error.log
 /_ide_helper.php
 /.phpstorm.meta.php
 /database/snapshots/
-/public/css/app.css
-/public/js/app.js
+/public/css/
+/public/js/
 /tests/cypress.env.json
 /tests/cypress/.DS_Store
+/public/mix-manifest.json
