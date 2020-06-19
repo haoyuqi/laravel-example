@@ -132,8 +132,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Copy .env
-        run: php -r "file_exists('.env') || copy('.env.ci', '.env');"
       - uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
