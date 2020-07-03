@@ -11,6 +11,8 @@ class Visitor extends Model
 
     protected $dates = ['deleted_at'];
 
+    protected $fillable = ['ip', 'city'];
+
     public function logs()
     {
         return $this->hasMany(VisitorLog::class);

@@ -44,14 +44,10 @@ class RecordVisitors implements ShouldQueue
      */
     public function handle(GetCityByIpAbstract $getCityByIp)
     {
-        $visitor = Visitor::where('ip', $this->ip)->first();
-
-        if (!$visitor) {
-            $visitor = new Visitor();
-            $visitor->ip = $this->ip;
-            $visitor->city = $getCityByIp->getCity($this->ip);
-            $visitor->save();
-        }
+        $visitor = Visitor::firstOrCreate(
+            ['ip' => $this->ip],
+            ['city' => $getCityByIp->getCity($this->ip)]
+        );
 
         $visitor_log = new VisitorLog();
         $visitor_log->url = $this->url;
