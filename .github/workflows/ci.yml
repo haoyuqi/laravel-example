@@ -97,7 +97,7 @@ jobs:
       - name: Database Migrate
         run: php artisan migrate
       - name: Start Web Server
-        run: php -S localhost:8000 &
+        run: php artisan serve --host localhost --port 8000 &
       - name: LaraStan
         run: php artisan code:analyse --paths="app,config"
         continue-on-error: true
@@ -109,7 +109,6 @@ jobs:
           install: false
           working-directory: tests
           env: HOST=http://localhost:8000
-          wait-on: 'http://localhost:8000'
       - uses: actions/upload-artifact@v1
         if: failure()
         with:
