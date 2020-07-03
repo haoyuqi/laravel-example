@@ -97,7 +97,7 @@ jobs:
       - name: Database Migrate
         run: php artisan migrate
       - name: Start Web Server
-        run: php artisan serve --host localhost --port 8000 &
+        run: php -S localhost:8000 &
       - name: LaraStan
         run: php artisan code:analyse --paths="app,config"
         continue-on-error: true
