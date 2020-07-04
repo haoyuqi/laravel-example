@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Jobs\BlackListLog;
 use App\Models\BlackList;
 
 class BlackListService
@@ -13,11 +14,15 @@ class BlackListService
         $this->blackModel = $blackList;
     }
 
-    public function checkIp($ip, $uri)
+    public function checkIp($ip, $url)
     {
         $res = $this->blackModel->where('ip', $ip)->first();
 
-        if (!$res) return false;
+        if (!$res) {
+            return false;
+        }
+
+        dispatch(new BlackListLog($res, $url));
 
         return true;
     }
