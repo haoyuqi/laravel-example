@@ -143,7 +143,7 @@ return [
         'production' => [
             'supervisor-1' => [
                 'connection' => 'rabbitmq',
-                'queue' => ['queue-test', 'record-visitors'],
+                'queue' => ['queue-test', 'record-visitor', 'black-list-log'],
                 'balance' => 'auto',
                 'processes' => 4,
                 'tries' => 3,
@@ -153,7 +153,7 @@ return [
         'local' => [
             'supervisor-1' => [
                 'connection' => 'rabbitmq',
-                'queue' => ['queue-test', 'record-visitors'],
+                'queue' => ['queue-test', 'record-visitor', 'black-list-log'],
                 'balance' => 'simple',
                 'processes' => 3,
                 'tries' => 3,

@@ -18,6 +18,9 @@ class BlackListService
     {
         $res = $this->blackModel->where('ip', $ip)->first();
 
+        // 使用 redis 换成
+        // 传入 id 到队列中
+        // laravel-admin 模块进行管理
         if (!$res) {
             return false;
         }
