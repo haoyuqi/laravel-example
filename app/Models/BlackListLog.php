@@ -12,8 +12,10 @@ class BlackListLog extends Model
     protected $dates = ['deleted_at'];
 
     public static $alias = [
+        'id' => 'ID',
         'url' => 'URL',
         'created_at' => '创建时间',
+        'updated_at' => '更新时间',
     ];
 
     public function blackList()

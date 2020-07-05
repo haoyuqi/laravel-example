@@ -13,5 +13,6 @@ Route::group([
     $router->get('/', 'HomeController@index')->name('admin.home');
 
     $router->resource('black-list', BlackListController::class);
+    $router->resource('black-list-logs', BlackListLogController::class);
 
 });

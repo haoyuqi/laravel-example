@@ -79,6 +79,25 @@ class BlackListController extends AdminController
         $show->field('created_at', __(BlackList::$alias['created_at']));
         $show->field('updated_at', __(BlackList::$alias['updated_at']));
 
+        $show->logs('访问记录', function ($logs) {
+            $logs->resource('/admin/black-list-logs');
+
+            $logs->column('id', __(BlackListLog::$alias['id']));
+            $logs->column('url', __(BlackListLog::$alias['url']));
+            $logs->column('created_at', __(BlackListLog::$alias['created_at']))->sortable();
+            $logs->column('updated_at', __(BlackListLog::$alias['updated_at']));
+
+            $logs->disableActions();
+
+            $logs->disableCreateButton();
+
+            $logs->filter(function ($filter) {
+                $filter->disableIdFilter();
+                $filter->like('url', BlackListLog::$alias['url']);
+                $filter->between('created_at', BlackListLog::$alias['created_at'])->datetime();
+            });
+        });
+
         return $show;
     }
 
