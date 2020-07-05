@@ -23,4 +23,9 @@ class BlackList extends Model
     {
         return $this->hasMany(BlackListLog::class);
     }
+
+    public function city()
+    {
+        return $this->belongsTo(Visitor::class, 'ip', 'ip');
+    }
 }

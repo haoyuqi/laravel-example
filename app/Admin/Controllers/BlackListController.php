@@ -3,10 +3,14 @@
 namespace App\Admin\Controllers;
 
 use App\Models\BlackList;
+use App\Models\BlackListLog;
+use App\Models\Visitor;
+use Carbon\Carbon;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
+use Encore\Admin\Widgets\Table;
 
 class BlackListController extends AdminController
 {
@@ -28,9 +32,34 @@ class BlackListController extends AdminController
 
         $grid->column('id', __(BlackList::$alias['id']));
         $grid->column('ip', __(BlackList::$alias['ip']));
-        $grid->column('deleted_at', __(BlackList::$alias['deleted_at']));
+        $grid->column('city.city', Visitor::$alias['city']);
+        $grid->column('logs', '今日访问数量')->display(function ($logs) {
+            return collect($logs)->filter(function ($item, $key) {
+                return Carbon::parse($item['created_at'])->isToday();
+            })->count();
+        })->sortable();
+        $grid->column('all-logs', '历史访问数量')->display(function () {
+            return count($this->logs);
+        })->sortable();
+        $grid->column('urls', '访问记录')->expand(function ($model) {
+            return new Table([BlackListLog::$alias['url'], BlackListLog::$alias['created_at']],
+                collect($this->logs)
+                    ->take(10)
+                    ->map(function ($item) {
+                        return $item->only(['url', 'created_at']);
+                    })
+                    ->toArray()
+            );
+        });
         $grid->column('created_at', __(BlackList::$alias['created_at']));
         $grid->column('updated_at', __(BlackList::$alias['updated_at']));
+
+        $grid->filter(function ($filter) {
+            $filter->disableIdFilter();
+            $filter->like('ip', BlackList::$alias['ip']);
+            $filter->like('city.city', Visitor::$alias['city']);
+            $filter->between('created_at', BlackList::$alias['created_at'])->datetime();
+        });
 
         return $grid;
     }
@@ -47,7 +76,6 @@ class BlackListController extends AdminController
 
         $show->field('id', __(BlackList::$alias['id']));
         $show->field('ip', __(BlackList::$alias['ip']));
-        $show->field('deleted_at', __(BlackList::$alias['deleted_at']));
         $show->field('created_at', __(BlackList::$alias['created_at']));
         $show->field('updated_at', __(BlackList::$alias['updated_at']));
 

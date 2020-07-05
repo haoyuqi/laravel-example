@@ -13,6 +13,10 @@ class Visitor extends Model
 
     protected $fillable = ['ip', 'city'];
 
+    public static $alias = [
+        'city' => '城市',
+    ];
+
     public function logs()
     {
         return $this->hasMany(VisitorLog::class);
