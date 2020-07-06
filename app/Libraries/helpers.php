@@ -7,18 +7,6 @@
 
 use \Illuminate\Support\Facades\Validator;
 
-if (!function_exists('get_real_ip')) {
-    /**
-     * 获取 IP
-     * @param string $header
-     * @return array|string|null
-     */
-    function get_real_ip($header = 'X-Real-IP')
-    {
-        return request()->hasHeader($header) ? request()->header($header) : request()->getClientIp();
-    }
-}
-
 if (!function_exists('is_ip')) {
     function is_ip($ip)
     {

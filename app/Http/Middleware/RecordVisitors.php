@@ -16,7 +16,7 @@ class RecordVisitors
      */
     public function handle($request, Closure $next)
     {
-        $ip = get_real_ip();
+        $ip = request()->getClientIp();
         $request_url = $request->getRequestUri();
         $black_list_service = app()->make(BlackListService::class);
 
