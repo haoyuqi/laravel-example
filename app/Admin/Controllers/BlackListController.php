@@ -30,35 +30,46 @@ class BlackListController extends AdminController
     {
         $grid = new Grid(new BlackList());
 
-        $grid->column('id', __(BlackList::$alias['id']));
+        $grid->model()->orderBy('id', 'desc');
+
+        $grid->column('id', __(BlackList::$alias['id']))->display(function ($id) {
+            return '<a href="' . url('admin/black_list/' . $id) . '" target="_blank" >' . $id . '</a>';
+        })->sortable();
         $grid->column('ip', __(BlackList::$alias['ip']));
-        $grid->column('city.city', Visitor::$alias['city']);
-        $grid->column('logs', '今日访问数量')->display(function ($logs) {
-            return collect($logs)->filter(function ($item, $key) {
-                return Carbon::parse($item['created_at'])->isToday();
-            })->count();
-        })->sortable();
-        $grid->column('all-logs', '历史访问数量')->display(function () {
-            return count($this->logs);
-        })->sortable();
-        $grid->column('urls', '访问记录')->expand(function ($model) {
-            return new Table([BlackListLog::$alias['url'], BlackListLog::$alias['created_at']],
-                collect($this->logs)
-                    ->take(10)
-                    ->map(function ($item) {
-                        return $item->only(['url', 'created_at']);
-                    })
-                    ->toArray()
-            );
-        });
+        $grid->column('city.city', __(Visitor::$alias['city']));
+        $grid->column('today_logs_count', __(BlackList::$alias['today_logs_count']))
+            ->display(function () {
+                return $this->logs->filter(function ($item, $key) {
+                    return Carbon::parse($item['created_at'])->isToday();
+                })->count();
+            })->sortable();
+        $grid->column('all_logs_count', __(BlackList::$alias['all_logs_count']))
+            ->display(function () {
+                return count($this->logs);
+            })->sortable();
+        $grid->column('urls', __(BlackList::$alias['urls']))
+            ->expand(function ($model) {
+                return new Table([__(BlackListLog::$alias['url']), __(BlackListLog::$alias['created_at'])],
+                    $this->logs
+                        ->take(10)
+                        ->map(function ($item) {
+                            return $item->only(['url', 'created_at']);
+                        })
+                        ->toArray()
+                );
+            });
         $grid->column('created_at', __(BlackList::$alias['created_at']));
-        $grid->column('updated_at', __(BlackList::$alias['updated_at']));
+        $grid->column('last_time', __(BlackList::$alias['last_time']))
+            ->display(function () {
+                $first = $this->logs->sortByDesc('created_at')->first()->toArray();
+                return $first['created_at'];
+            })->sortable();
 
         $grid->filter(function ($filter) {
             $filter->disableIdFilter();
-            $filter->like('ip', BlackList::$alias['ip']);
-            $filter->like('city.city', Visitor::$alias['city']);
-            $filter->between('created_at', BlackList::$alias['created_at'])->datetime();
+            $filter->like('ip', __(BlackList::$alias['ip']));
+            $filter->like('city.city', __(Visitor::$alias['city']));
+            $filter->between('created_at', __(BlackList::$alias['created_at']))->datetime();
         });
 
         return $grid;
@@ -79,13 +90,14 @@ class BlackListController extends AdminController
         $show->field('created_at', __(BlackList::$alias['created_at']));
         $show->field('updated_at', __(BlackList::$alias['updated_at']));
 
-        $show->logs('访问记录', function ($logs) {
+        $show->logs(__(BlackList::$alias['urls']), function ($logs) {
             $logs->resource('/admin/black_list_logs');
+
+            $logs->model()->orderBy('id', 'desc');
 
             $logs->column('id', __(BlackListLog::$alias['id']));
             $logs->column('url', __(BlackListLog::$alias['url']));
             $logs->column('created_at', __(BlackListLog::$alias['created_at']))->sortable();
-            $logs->column('updated_at', __(BlackListLog::$alias['updated_at']));
 
             $logs->disableActions();
 
@@ -93,8 +105,8 @@ class BlackListController extends AdminController
 
             $logs->filter(function ($filter) {
                 $filter->disableIdFilter();
-                $filter->like('url', BlackListLog::$alias['url']);
-                $filter->between('created_at', BlackListLog::$alias['created_at'])->datetime();
+                $filter->like('url', __(BlackListLog::$alias['url']));
+                $filter->between('created_at', __(BlackListLog::$alias['created_at']))->datetime();
             });
         });
 

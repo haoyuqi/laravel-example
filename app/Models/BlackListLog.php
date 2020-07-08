@@ -14,7 +14,7 @@ class BlackListLog extends Model
     public static $alias = [
         'id' => 'ID',
         'url' => 'URL',
-        'created_at' => '创建时间',
+        'created_at' => '访问时间',
         'updated_at' => '更新时间',
     ];
 
