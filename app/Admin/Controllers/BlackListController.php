@@ -80,7 +80,7 @@ class BlackListController extends AdminController
         $show->field('updated_at', __(BlackList::$alias['updated_at']));
 
         $show->logs('访问记录', function ($logs) {
-            $logs->resource('/admin/black-list-logs');
+            $logs->resource('/admin/black_list_logs');
 
             $logs->column('id', __(BlackListLog::$alias['id']));
             $logs->column('url', __(BlackListLog::$alias['url']));
