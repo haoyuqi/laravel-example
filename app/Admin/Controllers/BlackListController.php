@@ -11,6 +11,7 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
 use Encore\Admin\Widgets\Table;
+use Illuminate\Database\Eloquent\Collection;
 
 class BlackListController extends AdminController
 {
@@ -97,7 +98,14 @@ class BlackListController extends AdminController
 
             $logs->model()->orderBy('id', 'desc');
 
-            $logs->column('id', __(BlackListLog::$alias['id']));
+            $logs->model()->collection(function (Collection $collection) {
+                foreach ($collection as $key => $value) {
+                    $value->number = $key + 1;
+                }
+                return $collection;
+            });
+
+            $logs->column('number', __(BlackListLog::$alias['number']));
             $logs->column('url', __(BlackListLog::$alias['url']));
             $logs->column('created_at', __(BlackListLog::$alias['created_at']))->sortable();
 

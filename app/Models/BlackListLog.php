@@ -16,6 +16,7 @@ class BlackListLog extends Model
         'url' => 'URL',
         'created_at' => '访问时间',
         'updated_at' => '更新时间',
+        'number' => '序号',
     ];
 
     public function blackList()
