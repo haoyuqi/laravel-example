@@ -45,23 +45,26 @@ class BlackListController extends AdminController
             })->sortable();
         $grid->column('all_logs_count', __(BlackList::$alias['all_logs_count']))
             ->display(function () {
-                return count($this->logs);
+                return $this->logs->count();
             })->sortable();
         $grid->column('urls', __(BlackList::$alias['urls']))
             ->expand(function ($model) {
                 return new Table([__(BlackListLog::$alias['url']), __(BlackListLog::$alias['created_at'])],
                     $this->logs
+                        ->sortByDesc('created_at')
                         ->take(10)
                         ->map(function ($item) {
                             return $item->only(['url', 'created_at']);
                         })
-                        ->toArray()
+                        ->values()
+                        ->all()
                 );
             });
         $grid->column('created_at', __(BlackList::$alias['created_at']));
         $grid->column('last_time', __(BlackList::$alias['last_time']))
             ->display(function () {
-                return (string)$this->logs->sortByDesc('created_at')->first()->created_at;
+                $first = $this->logs->sortByDesc('created_at')->first();
+                return (string)$first['created_at'] ?? '';
             })->sortable();
 
         $grid->filter(function ($filter) {
