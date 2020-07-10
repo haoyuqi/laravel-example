@@ -56,6 +56,8 @@ class ClearFiles extends Command
                 });
 
             if ($files->isNotEmpty()) {
+                info('清理文件');
+                info($files->toArray());
                 File::delete($files->toArray());
             }
         }
