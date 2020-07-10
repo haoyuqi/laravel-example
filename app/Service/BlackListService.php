@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Jobs\BlackListLog;
 use App\Models\BlackList;
+use Illuminate\Support\Facades\Redis;
 
 class BlackListService
 {
@@ -16,14 +17,25 @@ class BlackListService
 
     public function checkIp($ip, $url)
     {
-        $res = $this->blackModel->where('ip', $ip)->first();
+        $cache_key = 'black_list_' . now()->toDateString();
+        $redis = Redis::connection('cache');
 
-        if (!$res) {
-            return false;
+        if ($redis->hexists($cache_key, $ip)) {
+            $is_black_ip = (bool)$redis->hget($cache_key, $ip);
+            if ($is_black_ip) {
+                dispatch(new BlackListLog($ip, $url));
+            }
+            return $is_black_ip;
         }
 
-        dispatch(new BlackListLog($res, $url));
+        $res = $this->blackModel->where('ip', $ip)->first();
 
-        return true;
+        $redis->hset($cache_key, $ip, ($res ? 1 : 0));
+
+        if ($res) {
+            dispatch(new BlackListLog($ip, $url));
+        }
+
+        return (bool)$res;
     }
 }

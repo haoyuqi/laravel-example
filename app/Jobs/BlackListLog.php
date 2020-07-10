@@ -19,20 +19,20 @@ class BlackListLog implements ShouldQueue
     // 超时
     public $timeout = 120;
 
-    protected $blackListModel;
+    protected $blackListIp;
 
-    protected $uri;
+    protected $url;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(BlackList $blackList, $uri)
+    public function __construct($black_list_ip, $url)
     {
         $this->queue = 'black-list-log';
-        $this->blackListModel = $blackList;
-        $this->uri = $uri;
+        $this->blackListIp = $black_list_ip;
+        $this->url = $url;
     }
 
     /**
@@ -42,9 +42,11 @@ class BlackListLog implements ShouldQueue
      */
     public function handle()
     {
-        $black_list_log = new \App\Models\BlackListLog();
-        $black_list_log->url = $this->uri;
+        $black_list = BlackList::where('ip', $this->blackListIp)->first();
 
-        $this->blackListModel->logs()->save($black_list_log);
+        $black_list_log = new \App\Models\BlackListLog();
+        $black_list_log->url = $this->url;
+
+        $black_list->logs()->save($black_list_log);
     }
 }
