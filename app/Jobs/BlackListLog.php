@@ -8,6 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 
 class BlackListLog implements ShouldQueue
 {
@@ -43,6 +44,12 @@ class BlackListLog implements ShouldQueue
     public function handle()
     {
         $black_list = BlackList::where('ip', $this->blackListIp)->first();
+
+        if (!$black_list) {
+            Log::error('black list log queue error.');
+            Log::error('find ' . $this->blackListIp . ' error.');
+            return;
+        }
 
         $black_list_log = new \App\Models\BlackListLog();
         $black_list_log->url = $this->url;
