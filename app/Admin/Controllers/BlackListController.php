@@ -38,6 +38,7 @@ class BlackListController extends AdminController
                 $query->whereDate('created_at', today());
             }
         ]);
+        $grid->model()->with('logs');
 
         $grid->column('id', __(BlackList::$alias['id']))->display(function ($id) {
             return '<a href="' . url('admin/black_list/' . $id) . '" target="_blank" >' . $id . '</a>';
