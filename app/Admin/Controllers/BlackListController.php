@@ -32,22 +32,20 @@ class BlackListController extends AdminController
         $grid = new Grid(new BlackList());
 
         $grid->model()->orderBy('id', 'desc');
+        $grid->model()->withCount([
+            'logs as all_logs_count',
+            'logs as today_logs_count' => function ($query) {
+                $query->whereDate('created_at', today());
+            }
+        ]);
 
         $grid->column('id', __(BlackList::$alias['id']))->display(function ($id) {
             return '<a href="' . url('admin/black_list/' . $id) . '" target="_blank" >' . $id . '</a>';
         })->sortable();
         $grid->column('ip', __(BlackList::$alias['ip']));
         $grid->column('city.city', __(Visitor::$alias['city']));
-        $grid->column('today_logs_count', __(BlackList::$alias['today_logs_count']))
-            ->display(function () {
-                return $this->logs->filter(function ($item, $key) {
-                    return Carbon::parse($item['created_at'])->isToday();
-                })->count();
-            })->sortable();
-        $grid->column('all_logs_count', __(BlackList::$alias['all_logs_count']))
-            ->display(function () {
-                return $this->logs->count();
-            })->sortable();
+        $grid->column('today_logs_count', __(BlackList::$alias['today_logs_count']))->sortable();
+        $grid->column('all_logs_count', __(BlackList::$alias['all_logs_count']))->sortable();
         $grid->column('urls', __(BlackList::$alias['urls']))
             ->expand(function ($model) {
                 return new Table([__(BlackListLog::$alias['url']), __(BlackListLog::$alias['created_at'])],
