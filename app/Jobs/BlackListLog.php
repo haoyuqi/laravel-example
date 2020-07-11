@@ -55,5 +55,7 @@ class BlackListLog implements ShouldQueue
         $black_list_log->url = $this->url;
 
         $black_list->logs()->save($black_list_log);
+        $black_list->updated_at = now();
+        $black_list->save();
     }
 }

@@ -60,11 +60,7 @@ class BlackListController extends AdminController
                 );
             });
         $grid->column('created_at', __(BlackList::$alias['created_at']));
-        $grid->column('last_time', __(BlackList::$alias['last_time']))
-            ->display(function () {
-                $first = $this->logs->sortByDesc('created_at')->first();
-                return (string)$first['created_at'] ?? '';
-            })->sortable();
+        $grid->column('updated_at', __(BlackList::$alias['updated_at']))->sortable();
 
         $grid->filter(function ($filter) {
             $filter->disableIdFilter();
