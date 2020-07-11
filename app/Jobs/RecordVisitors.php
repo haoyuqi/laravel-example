@@ -53,5 +53,7 @@ class RecordVisitors implements ShouldQueue
         $visitor_log->url = $this->url;
 
         $visitor->logs()->save($visitor_log);
+        $visitor->updated_at = now();
+        $visitor->save();
     }
 }
