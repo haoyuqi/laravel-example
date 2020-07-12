@@ -2,7 +2,7 @@
 基于 Laravel，集成常用功能。相关资料可在[我的文章](https://segmentfault.com/u/haoyq/articles)中查看。
 
 <p align="center">
-    <a href="https://github.com/haoyuqi/laravel-example/actions"><img alt="Build Status" src="https://github.com/haoyuqi/laravel-example/workflows/.github/workflows/ci.yml/badge.svg?branch=master"></a>
+    <a href="https://github.com/haoyuqi/laravel-example/actions"><img alt="Build Status" src="https://github.com/haoyuqi/laravel-example/workflows/CI/badge.svg"></a>
     <a href="https://laravel.com/"><img alt="Laravel" src="https://img.shields.io/badge/Laravel-v7.19.1-%23fc2d1f"></a>
     <a href="https://github.com/haoyuqi/laravel-example/blob/master/LICENSE"><img alt="GitHub license" src="https://img.shields.io/github/license/haoyuqi/laravel-example"></a>
 </p>
