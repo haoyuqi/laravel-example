@@ -204,7 +204,9 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
-          script: ${{ secrets.PHP_WORKER_CONTAINER }} 'cd ${{ secrets.PHP_WORKER_CODE_PATH }} && php artisan queue:restart'
+          script: |
+            ${{ secrets.PHP_WORKER_CONTAINER }} 'supervisorctl reload'
+            ${{ secrets.PHP_WORKER_CONTAINER }} 'cd ${{ secrets.PHP_WORKER_CODE_PATH }} && php artisan queue:restart'
       - name: Laravel Horizon Restart
         uses: appleboy/ssh-action@master
         with:
@@ -212,7 +214,9 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
           timeout: 2m
-          script: ${{ secrets.LARAVEL_HORIZON_CONTAINER }} 'cd ${{ secrets.LARAVEL_HORIZON_CODE_PATH }} && php artisan horizon:terminate'
+          script: |
+            ${{ secrets.LARAVEL_HORIZON_CONTAINER }} 'supervisorctl reload'
+            ${{ secrets.LARAVEL_HORIZON_CONTAINER }} 'cd ${{ secrets.LARAVEL_HORIZON_CODE_PATH }} && php artisan horizon:terminate'
       - name: Laravel Cache
         uses: appleboy/ssh-action@master
         with:
