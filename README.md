@@ -40,7 +40,6 @@
 | [Laravel Horizon](https://github.com/laravel/horizon) | 队列系统 |  |
 | [RabbitMQ Queue](https://github.com/vyuldashev/laravel-queue-rabbitmq#rabbitmq-queue-driver-for-laravel) | RabbitMQ 队列驱动 |  |
 | [Laravel-lang](https://github.com/overtrue/laravel-lang) | 语言包 |  |
-| [Larastan](https://github.com/nunomaduro/larastan) | 代码静态检查 | dev |
 | [laravel-db-snapshots](https://github.com/spatie/laravel-db-snapshots) | 数据库备份工具 | |
 | [Laravel Telescope](https://github.com/laravel/telescope) | 调试工具 |  |
 | [Sort functions](https://github.com/haoyuqi/sort-function) | 排序函数 | 练习用开发的 Composer 包 |
