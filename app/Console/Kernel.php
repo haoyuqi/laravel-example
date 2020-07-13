@@ -33,9 +33,11 @@ class Kernel extends ConsoleKernel
         //          ->hourly();
         $schedule->command('snapshot:create --compress')->dailyAt('00:01');
         // $schedule->command('sync:db-backup')->dailyAt('00:02');
-        $schedule->command('clear:files')->dailyAt('00:10');
         $schedule->command('horizon:snapshot')->everyFiveMinutes();
+
+        $schedule->command('clear:files')->dailyAt('00:10');
         $schedule->command('redis:forget black_list_' . now()->subDay()->toDateString())->dailyAt('00:20');
+        $schedule->command('telescope:prune --hours=72')->dailyAt('00:30');
         $schedule->command('redis:forget black_list_' . now()->toDateString())->twiceDaily(7, 13);
     }
 
