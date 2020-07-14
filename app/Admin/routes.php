@@ -15,5 +15,5 @@ Route::group([
     $router->resource('black_list', BlackListController::class);
     $router->resource('black_list_logs', BlackListLogController::class);
     $router->resource('visitor', VisitorController::class);
-
+    $router->resource('visitor_logs', VisitorLogController::class);
 });

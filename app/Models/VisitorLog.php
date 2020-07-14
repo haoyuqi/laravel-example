@@ -11,6 +11,14 @@ class VisitorLog extends BaseModel
 
     protected $dates = ['deleted_at'];
 
+    public static $alias = [
+        'id' => 'ID',
+        'url' => 'URL',
+        'created_at' => '访问时间',
+        'updated_at' => '更新时间',
+        'number' => '序号',
+    ];
+
     public function visitor()
     {
         return $this->belongsTo(Visitor::class);
