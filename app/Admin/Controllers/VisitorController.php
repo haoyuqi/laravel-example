@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Actions\Visitor\AddToBlackList;
 use App\Models\Visitor;
 use App\Models\VisitorLog;
 use Encore\Admin\Controllers\AdminController;
@@ -62,6 +63,10 @@ class VisitorController extends AdminController
             });
         $grid->column('created_at', __(Visitor::$alias['created_at']));
         $grid->column('updated_at', __(Visitor::$alias['updated_at']))->sortable();
+
+        $grid->batchActions(function ($batch) {
+            $batch->add(new AddToBlackList());
+        });
 
         $grid->filter(function ($filter) {
             $filter->disableIdFilter();
