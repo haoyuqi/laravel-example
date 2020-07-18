@@ -46,6 +46,7 @@ class VisitorController extends AdminController
         $grid->column('city', __(Visitor::$alias['city']));
         $grid->column('today_logs_count', __(Visitor::$alias['today_logs_count']))->sortable();
         $grid->column('all_logs_count', __(Visitor::$alias['all_logs_count']))->sortable();
+        $grid->column('blackList.id', __(Visitor::$alias['blackList-id']))->bool();
         $grid->column('urls', __(Visitor::$alias['urls']))
             ->expand(function ($model) {
                 return new Table([__(VisitorLog::$alias['url']), __(VisitorLog::$alias['created_at'])],
@@ -67,6 +68,14 @@ class VisitorController extends AdminController
             $filter->like('ip', __(Visitor::$alias['ip']));
             $filter->like('city', __(Visitor::$alias['city']));
             $filter->between('created_at', __(Visitor::$alias['created_at']))->datetime();
+            $filter->where(function ($query) {
+                if ($this->input) {
+                    return $query->has('blackList');
+                } else {
+                    return $query->doesntHave('blackList');
+                }
+            }, __(Visitor::$alias['blackList-id']))
+                ->radio([1 => '是', 0 => '否']);
         });
 
         return $grid;
