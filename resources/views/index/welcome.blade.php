@@ -17,7 +17,7 @@
     </div>
 @endif--}}
     <div id="app">
-        <show-info info="{{ $info }}"></show-info>
+        <show-info-component info="{{ $info }}"></show-info-component>
     </div>
     <script src="{{ asset('js/app.js') }}"></script>
 @endsection

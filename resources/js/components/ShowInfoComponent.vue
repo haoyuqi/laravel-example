@@ -14,11 +14,6 @@
 
 <script>
     export default {
-        data() {
-            return {
-                info: ''
-            }
-        },
         props: ['info']
     }
 </script>

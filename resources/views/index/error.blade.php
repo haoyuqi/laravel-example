@@ -5,9 +5,9 @@
 @section('content')
     <div id="app">
         @if($errors->any())
-            <show-info info="{{ $errors->first() }}"></show-info>
+            <show-info-component info="{{ $errors->first() }}"></show-info-component>
         @else
-            <show-info info="{{ $info }}"></show-info>
+            <show-info-component info="{{ $info }}"></show-info-component>
         @endif
     </div>
     <script src="{{ asset('js/app.js') }}"></script>
