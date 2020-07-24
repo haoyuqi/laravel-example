@@ -14,6 +14,7 @@
 Route::get('/', 'IndexController@index');
 Route::get('/error', 'IndexController@error');
 Route::get('/test', 'IndexController@test');
+Route::get('/time', 'IndexController@time');
 
 // queue test
 Route::group(['prefix' => 'queue'], function ($route) {

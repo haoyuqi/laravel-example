@@ -8,12 +8,17 @@ class IndexController extends Controller
 {
     public function index()
     {
-        return view('welcome', ['info' => 'Hello World']);
+        return view('index.welcome', ['info' => 'Hello World']);
     }
 
     public function error()
     {
-        return view('error', ['info' => 'No Message']);
+        return view('index.error', ['info' => 'No Message']);
+    }
+
+    public function time()
+    {
+        return view('index.time', ['info' => now()->toDateTimeString()]);
     }
 
     public function test()
