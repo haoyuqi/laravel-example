@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\PushTimeEvent;
 use Illuminate\Http\Request;
 
 class IndexController extends Controller
@@ -18,7 +19,7 @@ class IndexController extends Controller
 
     public function time()
     {
-        return view('index.time', ['info' => now()->toDateTimeString()]);
+        return view('index.time', ['init_data' => [now()->toDateTimeString()]]);
     }
 
     public function test()
