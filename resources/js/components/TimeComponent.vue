@@ -15,7 +15,7 @@
                     </thead>
                     <tbody>
                     <tr v-for="(item, key) in time_list">
-                        <th scope="row">{{ key+1 }}</th>
+                        <th scope="row">{{ key + 1 }}</th>
                         <td>{{ item }}</td>
                     </tr>
                     </tbody>
@@ -34,6 +34,10 @@
         },
         props: ['init_data'],
         mounted() {
+            Echo.channel('push-time')
+                .listen('PushTimeEvent', (e) => {
+                    this.time_list.push(e.time)
+                })
         }
     }
 </script>
