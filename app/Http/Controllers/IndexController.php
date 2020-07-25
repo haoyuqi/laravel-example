@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\PushTimeEvent;
 use Illuminate\Http\Request;
 
 class IndexController extends Controller

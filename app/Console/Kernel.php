@@ -5,6 +5,7 @@ namespace App\Console;
 use App\Console\Commands\ClearFiles;
 use App\Console\Commands\RedisForget;
 use App\Console\Commands\SyncDBBackup;
+use App\Events\PushTimeEvent;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -31,6 +32,11 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
+
+        $schedule->call(function () {
+            event(new PushTimeEvent());
+        })->everyMinute();
+
         $schedule->command('snapshot:create --compress')->dailyAt('00:01');
         // $schedule->command('sync:db-backup')->dailyAt('00:02');
         $schedule->command('horizon:snapshot')->everyFiveMinutes();
