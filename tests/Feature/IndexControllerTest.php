@@ -14,7 +14,7 @@ class IndexControllerTest extends TestCase
 
         $response->assertSuccessful()
             ->assertViewIs('index.welcome')
-            ->assertSeeText('laravel example')
+            ->assertSeeText('Laravel example')
             ->assertViewHas('info', 'Hello World');
     }
 
@@ -24,8 +24,18 @@ class IndexControllerTest extends TestCase
 
         $response->assertSuccessful()
             ->assertViewIs('index.error')
-            ->assertSeeText('laravel example')
+            ->assertSeeText('Error')
             ->assertViewHas('info', 'No Message');
+    }
+
+    public function time()
+    {
+        $response = $this->get('/time');
+
+        $response->assertSuccessful()
+            ->assertViewIs('index.time')
+            ->assertSeeText('Time')
+            ->assertViewHas('info', now()->toDateTimeString());
     }
 
     public function testTest()
