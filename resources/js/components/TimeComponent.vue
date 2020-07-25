@@ -34,7 +34,7 @@
         },
         props: ['init_data'],
         mounted() {
-            Echo.channel('push-time')
+            Echo.channel('laravel_example_database_push-time')
                 .listen('PushTimeEvent', (e) => {
                     this.time_list.push(e.time)
                 })
