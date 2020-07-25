@@ -13,7 +13,7 @@ class IndexControllerTest extends TestCase
         $response = $this->get('/');
 
         $response->assertSuccessful()
-            ->assertViewIs('welcome')
+            ->assertViewIs('index.welcome')
             ->assertSeeText('laravel example')
             ->assertViewHas('info', 'Hello World');
     }
@@ -23,7 +23,7 @@ class IndexControllerTest extends TestCase
         $response = $this->get('/error');
 
         $response->assertSuccessful()
-            ->assertViewIs('error')
+            ->assertViewIs('index.error')
             ->assertSeeText('laravel example')
             ->assertViewHas('info', 'No Message');
     }
