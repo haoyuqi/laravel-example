@@ -17,6 +17,7 @@
         "cross-env": "^5.1",
         "cypress": "^4.11.0",
         "cypress-cucumber-preprocessor": "^2.5.4",
+        "dayjs": "^1.8.31",
         "dot-prop": ">=5.1.1",
         "jquery": "^3.5.1",
         "kind-of": ">=6.0.3",
