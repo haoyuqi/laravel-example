@@ -6,7 +6,7 @@ Given('Open time page', () => {
 });
 
 Then('See text', () => {
-    let today = dayjs().format('YYYY-MM-DD HH:mm');
+    let today = dayjs().local().format('YYYY-MM-DD HH:mm');
 
     cy.get('td').should('be.include.text', today);
 });
