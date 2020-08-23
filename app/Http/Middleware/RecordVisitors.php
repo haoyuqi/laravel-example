@@ -16,15 +16,17 @@ class RecordVisitors
      */
     public function handle($request, Closure $next)
     {
-        $ip = request()->getClientIp();
-        $request_url = $request->getRequestUri();
-        $black_list_service = app()->make(BlackListService::class);
+        if (!app()->isLocal()) {
+            $ip = request()->getClientIp();
+            $request_url = $request->getRequestUri();
+            $black_list_service = app()->make(BlackListService::class);
 
-        if ($black_list_service->checkIp($ip, $request_url)) {
-            abort(403);
+            if ($black_list_service->checkIp($ip, $request_url)) {
+                abort(403);
+            }
+
+            dispatch(new \App\Jobs\RecordVisitors($ip, $request_url));
         }
-
-        dispatch(new \App\Jobs\RecordVisitors($ip, $request_url));
 
         return $next($request);
     }
