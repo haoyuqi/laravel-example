@@ -11,6 +11,9 @@ class BlackListLog extends BaseModel
 
     protected $dates = ['deleted_at'];
 
+    // 更新父级时间戳
+    protected $touches = ['blackList'];
+
     public static $alias = [
         'id' => 'ID',
         'url' => 'URL',
