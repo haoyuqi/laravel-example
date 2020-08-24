@@ -11,6 +11,9 @@ class VisitorLog extends BaseModel
 
     protected $dates = ['deleted_at'];
 
+    // 更新父级时间戳
+    protected $touches = ['visitor'];
+
     public static $alias = [
         'id' => 'ID',
         'url' => 'URL',
