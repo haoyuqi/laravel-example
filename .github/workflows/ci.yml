@@ -105,7 +105,7 @@ jobs:
       - name: Unitest
         run: php artisan test
       - name: Cypress Test
-        uses: cypress-io/github-action@v1
+        uses: cypress-io/github-action@v2
         with:
           install: false
           working-directory: tests
