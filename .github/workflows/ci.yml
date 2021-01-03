@@ -150,7 +150,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-version }}
       - name: Setup Node
-      - uses: actions/setup-node@v1
+        uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
       - name: Npm Install And Build
