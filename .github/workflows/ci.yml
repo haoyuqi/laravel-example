@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [ 13.x, 14.x, 15.x ]
+        node-version: [ 14.x, 15.x ]
         php-version: [ 7.3 ]
 
     services:
@@ -66,7 +66,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [ 13.x, 14.x, 15.x ]
+        node-version: [ 14.x, 15.x ]
         php-version: [ 7.3 ]
 
     services:
@@ -140,7 +140,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [ 13.x, 14.x, 15.x ]
+        node-version: [ 15.x ]
         php-version: [ 7.3 ]
 
     steps:
