@@ -16,6 +16,8 @@
     3. `composer install --prefer-dist`
     4. `npm install && npm run dev`
     5. `php artisan key:generate`
+    6. `php artisan horizon:publish`   
+    7. `php artisan vendor:publish --provider="Encore\Admin\AdminServiceProvider"`
 4. 修改 `.env` 中 `redis`、`mysql` 相关配置，`php artisan migrate`
 5. 服务器、域名配置
 6. `php-worker`, `laravel-horizon` 配置 `supervisord`, 维护队列   
