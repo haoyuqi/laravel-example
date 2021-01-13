@@ -18,6 +18,7 @@
     5. `php artisan key:generate`
     6. `php artisan horizon:publish`   
     7. `php artisan vendor:publish --provider="Encore\Admin\AdminServiceProvider"`
+    8. `php artisan storage:link`
 4. 修改 `.env` 中 `redis`、`mysql` 相关配置，`php artisan migrate`
 5. 服务器、域名配置
 6. `php-worker`, `laravel-horizon` 配置 `supervisord`, 维护队列   
@@ -48,4 +49,4 @@
 | [Laravel Telescope](https://github.com/laravel/telescope) | 调试工具 |  |
 | [Sort functions](https://github.com/haoyuqi/sort-function) | 排序函数 | 练习用开发的 Composer 包 |
 | [Laravel-admin](https://github.com/z-song/laravel-admin) | 管理后台 |  |
-| [Log viewer](https://github.com/laravel-admin-extensions/log-viewer) | 后台插件 | Laravel-admin 插件 |
+| [Log viewer](https://github.com/laravel-admin-extensions/log-viewer) | 后台插件 | Laravel-admin 插件。 `php artisan admin:import log-viewer` |
