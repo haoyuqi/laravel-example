@@ -16,6 +16,7 @@ class TrustProxies extends Middleware
         '127.0.0.1',
         '172.22.0.1',
         '172.20.0.1',
+        '172.21.0.1',
     ];
 
     /**
