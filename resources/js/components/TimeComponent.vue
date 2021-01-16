@@ -26,19 +26,19 @@
 </template>
 
 <script>
-    export default {
-        data() {
-            return {
-                time_list: JSON.parse(this.init_data)
-            }
-        },
-        props: ['init_data'],
-        mounted() {
-            Echo.channel('laravel_example_database_push-time')
-                .listen('PushTimeEvent', (e) => {
-                    this.time_list.push(e.time)
-                })
+export default {
+    data() {
+        return {
+            time_list: JSON.parse(this.init_data)
         }
+    },
+    props: ['init_data'],
+    mounted() {
+        Echo.channel(process.env.MIX_REDIS_PREFIX + 'push-time')
+            .listen('PushTimeEvent', (e) => {
+                this.time_list.push(e.time)
+            })
     }
+}
 </script>
 
