@@ -123,7 +123,7 @@ jobs:
       - name: Unitest
         run: php artisan test
       - name: Dusk Test
-        run: php artsian dusk
+        run: php artisan dusk
       - name: Cypress Test
         uses: cypress-io/github-action@v2
         with:
