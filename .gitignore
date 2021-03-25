@@ -20,3 +20,4 @@ yarn-error.log
 /tests/cypress.env.json
 /tests/cypress/.DS_Store
 /public/mix-manifest.json
+.env.dusk.local
