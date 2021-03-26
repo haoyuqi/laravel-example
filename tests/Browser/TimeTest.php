@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
-class Error extends DuskTestCase
+class TimeTest extends DuskTestCase
 {
     /**
      * A Dusk test example.
@@ -16,8 +16,8 @@ class Error extends DuskTestCase
     public function testPage()
     {
         $this->browse(function (Browser $browser) {
-            $browser->visit('/error')
-                    ->assertSee('No Message');
+            $browser->visit('/time')
+                    ->assertSee(now()->format('Y-m-d H:i'));
         });
     }
 }
