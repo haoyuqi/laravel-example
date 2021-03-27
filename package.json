@@ -7,16 +7,13 @@
         "watch-poll": "npm run watch -- --watch-poll",
         "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
         "prod": "npm run production",
-        "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-        "cy-test": "npx cypress run --project ./tests"
+        "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
     },
     "devDependencies": {
         "acorn": "^7.3.1",
         "axios": "^0.21.1",
         "bootstrap": "^4.5.0",
         "cross-env": "^5.1",
-        "cypress": "^4.11.0",
-        "cypress-cucumber-preprocessor": "^2.5.4",
         "dayjs": "^1.8.31",
         "dot-prop": ">=5.1.1",
         "jquery": "^3.5.1",
@@ -33,8 +30,5 @@
         "socket.io-client": "^2.3.0",
         "vue": "^2.6.11",
         "vue-template-compiler": "^2.6.11"
-    },
-    "cypress-cucumber-preprocessor": {
-        "nonGlobalStepDefinitions": true
     }
 }

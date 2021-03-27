@@ -17,7 +17,5 @@ yarn-error.log
 /database/snapshots/
 /public/css/
 /public/js/
-/tests/cypress.env.json
-/tests/cypress/.DS_Store
 /public/mix-manifest.json
 .env.dusk.local
