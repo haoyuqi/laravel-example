@@ -17,7 +17,7 @@ jobs:
     strategy:
       matrix:
         node-version: [ 14.x, 15.x ]
-        php-version: [ 7.3, 7.4 ]
+        php-version: [ 7.4 ]
 
     services:
       mysql:
@@ -41,6 +41,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-version }}
           extensions: redis
+          tools: composer:v2
       - name: Setup Node
         uses: actions/setup-node@v1
         with:
@@ -48,12 +49,7 @@ jobs:
       - name: Copy .env
         run: php -r "file_exists('.env') || copy('.env.ci', '.env');"
       - name: Composer Install
-        uses: php-actions/composer@v5
-        with:
-          php_version: ${{ matrix.php-version }}
-          version: 2
-          quiet: yes
-          args: --no-ansi --no-scripts --no-suggest --prefer-dist
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
       - name: Npm Install And Build
         run: |
           npm install
@@ -101,6 +97,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-version }}
           extensions: redis
+          tools: composer:v2
       - name: Setup Node
         uses: actions/setup-node@v1
         with:
@@ -108,12 +105,7 @@ jobs:
       - name: Copy .env
         run: php -r "file_exists('.env') || copy('.env.ci', '.env');"
       - name: Composer Install
-        uses: php-actions/composer@v5
-        with:
-          php_version: ${{ matrix.php-version }}
-          version: 2
-          quiet: yes
-          args: --no-ansi --no-scripts --no-suggest --prefer-dist
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
       - name: Npm Install And Build
         run: |
           npm install
