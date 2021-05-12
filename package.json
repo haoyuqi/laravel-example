@@ -19,7 +19,7 @@
         "kind-of": ">=6.0.3",
         "laravel-echo": "^1.8.0",
         "laravel-mix": "^4.0.7",
-        "lodash": "^4.17.19",
+        "lodash": "^4.17.21",
         "minimist": ">=1.2.2",
         "popper.js": "^1.16.1",
         "resolve-url-loader": "2.3.1",
