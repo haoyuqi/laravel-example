@@ -178,53 +178,6 @@
             "time": "2021-02-06T03:37:44+00:00"
         },
         {
-            "name": "caouecs/laravel-lang",
-            "version": "4.0.11",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/caouecs/lang.git",
-                "reference": "134e1cbf9be14d97fc7937d7df784eae2d4bfa3c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/caouecs/lang/zipball/134e1cbf9be14d97fc7937d7df784eae2d4bfa3c",
-                "reference": "134e1cbf9be14d97fc7937d7df784eae2d4bfa3c",
-                "shasum": ""
-            },
-            "require": {
-                "ext-json": "*"
-            },
-            "suggest": {
-                "ablunier/laravel-lang-installer": "Command for easily add languages to a Laravel project",
-                "andrey-helldar/laravel-lang-publisher": "Easy installation and update of translation files for your project",
-                "arcanedev/laravel-lang": "Translations manager and checker for Laravel 5",
-                "overtrue/laravel-lang": "Command to add languages in your project"
-            },
-            "type": "library",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "caouecs",
-                    "email": "caouecs@caouecs.net"
-                }
-            ],
-            "description": "Languages for Laravel",
-            "keywords": [
-                "lang",
-                "languages",
-                "laravel",
-                "lpm"
-            ],
-            "support": {
-                "source": "https://github.com/caouecs/lang/tree/4.0.11"
-            },
-            "abandoned": "https://github.com/Laravel-Lang/lang",
-            "time": "2020-03-17T15:24:26+00:00"
-        },
-        {
             "name": "dnoegel/php-xdg-base-dir",
             "version": "v0.1.1",
             "source": {
@@ -1685,6 +1638,53 @@
             "time": "2018-11-13T17:17:36+00:00"
         },
         {
+            "name": "laravel-lang/lang",
+            "version": "3.0.62",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Laravel-Lang/lang.git",
+                "reference": "fcb8cec051b175278e0a9efa440f0b1033d12dd7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Laravel-Lang/lang/zipball/fcb8cec051b175278e0a9efa440f0b1033d12dd7",
+                "reference": "fcb8cec051b175278e0a9efa440f0b1033d12dd7",
+                "shasum": ""
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.10"
+            },
+            "suggest": {
+                "ablunier/laravel-lang-installer": "Command for easily add languages to a Laravel project",
+                "andrey-helldar/laravel-lang-publisher": "Easy installation and update of translation files for your project",
+                "arcanedev/laravel-lang": "Translations manager and checker for Laravel 5",
+                "overtrue/laravel-lang": "Command to add languages in your project"
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "caouecs",
+                    "email": "caouecs@caouecs.net"
+                }
+            ],
+            "description": "Languages for Laravel",
+            "keywords": [
+                "lang",
+                "languages",
+                "laravel",
+                "lpm"
+            ],
+            "support": {
+                "issues": "https://github.com/Laravel-Lang/lang/issues",
+                "source": "https://github.com/Laravel-Lang/lang/tree/3.0.62"
+            },
+            "time": "2019-03-17T10:36:46+00:00"
+        },
+        {
             "name": "laravel/framework",
             "version": "v7.30.4",
             "source": {
@@ -2732,24 +2732,20 @@
         },
         {
             "name": "overtrue/laravel-lang",
-            "version": "3.0.18",
+            "version": "3.0.19",
             "source": {
                 "type": "git",
                 "url": "https://github.com/overtrue/laravel-lang.git",
-                "reference": "d69824be235f6142e3e4226d9918da76e4727774"
+                "reference": "fb6de57a454792833c96ffdcd4999c90468deb89"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/overtrue/laravel-lang/zipball/d69824be235f6142e3e4226d9918da76e4727774",
-                "reference": "d69824be235f6142e3e4226d9918da76e4727774",
+                "url": "https://api.github.com/repos/overtrue/laravel-lang/zipball/fb6de57a454792833c96ffdcd4999c90468deb89",
+                "reference": "fb6de57a454792833c96ffdcd4999c90468deb89",
                 "shasum": ""
             },
             "require": {
-                "caouecs/laravel-lang": "~4.0",
-                "symfony/process": "^5.0.0"
-            },
-            "require-dev": {
-                "laravel/framework": "~7.0"
+                "laravel-lang/lang": "~3.0"
             },
             "type": "library",
             "extra": {
@@ -2779,15 +2775,13 @@
             ],
             "description": "List of 52 languages for Laravel 5",
             "keywords": [
-                "i18n",
                 "languages",
                 "laravel",
-                "locale",
                 "overtrue"
             ],
             "support": {
                 "issues": "https://github.com/overtrue/laravel-lang/issues",
-                "source": "https://github.com/overtrue/laravel-lang/tree/3.0.18"
+                "source": "https://github.com/overtrue/laravel-lang/tree/3.0.19"
             },
             "funding": [
                 {
@@ -2795,7 +2789,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2020-03-06T02:39:28+00:00"
+            "time": "2021-04-28T03:36:48+00:00"
         },
         {
             "name": "paragonie/constant_time_encoding",
