@@ -69,7 +69,7 @@ jobs:
       - name: Start Chrome Drive
         run: ./vendor/laravel/dusk/bin/chromedriver-linux &
       - name: Start Web Server
-        run: php artisan serve --host localhost --port 8000 --no-reload &
+        run: php artisan serve --host 127.0.0.1 --port 8000 --no-reload &
       - name: PHPunit Test
         run: php artisan test
       - name: Dusk Test
