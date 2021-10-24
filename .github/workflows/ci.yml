@@ -56,7 +56,7 @@ jobs:
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
       - name: Npm Install And Build
         run: |
-          npm install
+          npm install --quiet
           npm run dev
       - name: Generate Key
         run: php artisan key:generate
@@ -142,7 +142,7 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
           timeout: 2m
-          script: ${{ secrets.WORKSPACE_CONTAINER }} 'cd ${{ secrets.WORKSPACE_CODE_PATH }} && npm install && npm run prod'
+          script: ${{ secrets.WORKSPACE_CONTAINER }} 'cd ${{ secrets.WORKSPACE_CODE_PATH }} && npm install --quiet && npm run prod'
       - name: Laravel Clear Cache
         uses: appleboy/ssh-action@master
         with:
