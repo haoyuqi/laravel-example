@@ -22,8 +22,7 @@
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.3",
         "overtrue/laravel-lang": "^5.0",
-        "spatie/laravel-db-snapshots": "^1.7",
-        "vladimir-yuldashev/laravel-queue-rabbitmq": "^11.3"
+        "spatie/laravel-db-snapshots": "^1.7"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6",
