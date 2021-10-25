@@ -142,7 +142,7 @@ return [
     'environments' => [
         'production' => [
             'supervisor-1' => [
-                'connection' => 'rabbitmq',
+                'connection' => 'redis',
                 'queue' => ['queue-test', 'record-visitor', 'black-list-log', 'push-time'],
                 'balance' => 'auto',
                 'processes' => 4,
@@ -152,7 +152,7 @@ return [
 
         'local' => [
             'supervisor-1' => [
-                'connection' => 'rabbitmq',
+                'connection' => 'redis',
                 'queue' => ['queue-test', 'record-visitor', 'black-list-log', 'push-time'],
                 'balance' => 'simple',
                 'processes' => 4,
