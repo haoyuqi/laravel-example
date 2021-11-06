@@ -143,18 +143,6 @@ jobs:
           key: ${{ secrets.KEY }}
           timeout: 2m
           script: ${{ secrets.WORKSPACE_CONTAINER }} 'cd ${{ secrets.WORKSPACE_CODE_PATH }} && npm install --quiet && npm run prod'
-      - name: Laravel Clear Cache
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.KEY }}
-          timeout: 2m
-          script: |
-            ${{ secrets.WORKSPACE_CONTAINER }} 'cd ${{ secrets.WORKSPACE_CODE_PATH }} && php artisan config:clear'
-            ${{ secrets.WORKSPACE_CONTAINER }} 'cd ${{ secrets.WORKSPACE_CODE_PATH }} && php artisan route:clear'
-            ${{ secrets.WORKSPACE_CONTAINER }} 'cd ${{ secrets.WORKSPACE_CODE_PATH }} && php artisan view:clear'
-            ${{ secrets.WORKSPACE_CONTAINER }} 'cd ${{ secrets.WORKSPACE_CODE_PATH }} && php artisan event:clear'
       - name: Laravel Migrate
         uses: appleboy/ssh-action@master
         with:
