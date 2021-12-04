@@ -14,10 +14,13 @@ class HomeController extends Controller
     {
         return $content
             ->title('Dashboard')
-            ->row(view('admin.title'))
+            ->row(AdminViewController::dashboardTitle())
             ->row(function (Row $row) {
                 $row->column(4, function (Column $column) {
                     $column->append(Dashboard::environment());
+                });
+                $row->column(4, function (Column $column) {
+                    $column->append(AdminViewController::visitsCount());
                 });
             });
     }
