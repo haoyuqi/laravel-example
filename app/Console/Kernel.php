@@ -4,6 +4,7 @@ namespace App\Console;
 
 use App\Console\Commands\ClearFiles;
 use App\Console\Commands\RedisForget;
+use App\Console\Commands\SaveVisitsCount;
 use App\Console\Commands\SyncDBBackup;
 use App\Events\PushTimeEvent;
 use Illuminate\Console\Scheduling\Schedule;
@@ -20,6 +21,7 @@ class Kernel extends ConsoleKernel
         SyncDBBackup::class,
         ClearFiles::class,
         RedisForget::class,
+        SaveVisitsCount::class,
     ];
 
     /**
@@ -41,6 +43,7 @@ class Kernel extends ConsoleKernel
         // $schedule->command('sync:db-backup')->dailyAt('00:02');
         $schedule->command('horizon:snapshot')->everyFiveMinutes();
 
+        $schedule->command('save:visits-count')->dailyAt('00:05');
         $schedule->command('clear:files')->dailyAt('00:10');
         $schedule->command('redis:forget black_list_' . now()->subDay()->toDateString())->dailyAt('00:20');
         $schedule->command('telescope:prune --hours=72')->dailyAt('00:30');
