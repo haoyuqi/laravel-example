@@ -20,7 +20,7 @@ class SyncDBBackup extends Command
      *
      * @var string
      */
-    protected $description = '同步数据库备份';
+    protected $description = 'Synchronize database backup files';
 
     /**
      * Create a new command instance.
