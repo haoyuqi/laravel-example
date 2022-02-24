@@ -57,8 +57,13 @@ class ClearFiles extends Command
 
             if ($files->isNotEmpty()) {
                 info('Clear files.');
-                info($files->toJson());
-                File::delete($files->toArray());
+                info($files->map(function ($item) {
+                    return $item->getFilename();
+                })->toArray());
+
+                File::delete($files->map(function ($item) {
+                    return $item->getPathname();
+                })->toArray());
             }
         }
     }
