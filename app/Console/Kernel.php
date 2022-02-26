@@ -2,10 +2,10 @@
 
 namespace App\Console;
 
-use App\Console\Commands\ClearFiles;
+use App\Console\Commands\ClearFilesCommand;
 use App\Console\Commands\RedisForget;
-use App\Console\Commands\SaveVisitsCount;
-use App\Console\Commands\SyncDBBackup;
+use App\Console\Commands\SaveVisitsCountCommand;
+use App\Console\Commands\SyncDBBackupCommand;
 use App\Events\PushTimeEvent;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -18,10 +18,10 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        SyncDBBackup::class,
-        ClearFiles::class,
+        SyncDBBackupCommand::class,
+        ClearFilesCommand::class,
         RedisForget::class,
-        SaveVisitsCount::class,
+        SaveVisitsCountCommand::class,
     ];
 
     /**

@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\Process\Process;
 
-class SyncDBBackup extends Command
+class SyncDBBackupCommand extends Command
 {
     /**
      * The name and signature of the console command.

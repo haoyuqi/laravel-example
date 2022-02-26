@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
-class ClearFiles extends Command
+class ClearFilesCommand extends Command
 {
     /**
      * The name and signature of the console command.

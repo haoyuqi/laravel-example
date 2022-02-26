@@ -6,7 +6,7 @@ use App\Models\VisitorStatistics;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Redis;
 
-class SaveVisitsCount extends Command
+class SaveVisitsCountCommand extends Command
 {
     /**
      * The name and signature of the console command.
