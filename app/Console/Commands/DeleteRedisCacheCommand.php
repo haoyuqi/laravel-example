@@ -40,7 +40,6 @@ class DeleteRedisCacheCommand extends Command
     public function handle()
     {
         $key = $this->argument('key');
-        Redis::set('test', 'value');
 
         if (!Redis::exists($key)) {
             $info = "`$key` does not exist.";
