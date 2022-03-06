@@ -1,5 +1,5 @@
 # Laravel Example
-基于 Laravel，集成常用功能。相关资料可在[我的文章](https://segmentfault.com/u/haoyq/articles)中查看。
+基于 Laravel，集成常用功能。
 
 <p align="center">
     <a href="https://github.com/haoyuqi/laravel-example/actions"><img alt="Build Status" src="https://github.com/haoyuqi/laravel-example/workflows/CI/badge.svg"></a>
@@ -49,3 +49,9 @@
 | [Laravel-admin](https://github.com/z-song/laravel-admin) | 管理后台 |  |
 | [Log viewer](https://github.com/laravel-admin-extensions/log-viewer) | 后台插件 | Laravel-admin 插件。 `php artisan admin:import log-viewer` |
 | [Laravel Dusk](https://github.com/laravel/dusk) | 浏览器测试 |  `php artisan dusk:install` |
+
+## Project supported by JetBrains
+
+Thanks to JetBrains for supporting me.
+
+[![](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg)](https://www.jetbrains.com/?from=https://github.com/haoyuqi)
