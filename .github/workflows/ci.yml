@@ -127,7 +127,7 @@ jobs:
           key: ${{ secrets.KEY }}
           timeout: 2m
           script: ${{ secrets.WORKSPACE_CONTAINER }} 'cd ${{ secrets.WORKSPACE_CODE_PATH }} && git pull origin master'
-      - name: Compose Install
+      - name: Composer Install
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
