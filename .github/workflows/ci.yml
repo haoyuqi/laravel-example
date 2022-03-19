@@ -16,8 +16,8 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [ 14.x, 15.x ]
-        php-version: [ 7.4 ]
+        node-version: [ 15.x, 16.x ]
+        php-version: [ 7.4, 8.0 ]
 
     services:
       mysql:
@@ -93,11 +93,6 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
     needs: [ test ]
-
-    strategy:
-      matrix:
-        node-version: [ 15.x ]
-        php-version: [ 7.4 ]
 
     steps:
       - uses: actions/checkout@v2
