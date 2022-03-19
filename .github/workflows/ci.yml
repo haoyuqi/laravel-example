@@ -17,7 +17,7 @@ jobs:
     strategy:
       matrix:
         node-version: [ 15.x, 16.x ]
-        php-version: [ 7.4, 8.0 ]
+        php-version: [ 8.x ]
 
     services:
       mysql:
