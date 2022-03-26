@@ -16,7 +16,7 @@
                 @foreach($data as $item)
                 <tr>
                     <td width="120px">{{ $item['name'] }}</td>
-                    <td>{{ $item['value'] }}</td>
+                    <td>{{ $item['value'] ?? 0 }}</td>
                 </tr>
                 @endforeach
             </table>
