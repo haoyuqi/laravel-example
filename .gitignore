@@ -19,3 +19,4 @@ yarn-error.log
 /public/js/
 /public/mix-manifest.json
 .env.dusk.local
+/storage/bing-wallpaper/

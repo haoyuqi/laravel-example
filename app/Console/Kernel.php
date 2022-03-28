@@ -4,6 +4,7 @@ namespace App\Console;
 
 use App\Console\Commands\ClearFilesCommand;
 use App\Console\Commands\DeleteRedisCacheCommand;
+use App\Console\Commands\DownloadBingWallpaperCommand;
 use App\Console\Commands\SaveVisitsCountCommand;
 use App\Console\Commands\SyncDBBackupCommand;
 use App\Events\PushTimeEvent;
@@ -22,6 +23,7 @@ class Kernel extends ConsoleKernel
         ClearFilesCommand::class,
         SaveVisitsCountCommand::class,
         DeleteRedisCacheCommand::class,
+        DownloadBingWallpaperCommand::class,
     ];
 
     /**
@@ -47,6 +49,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('clear:files')->dailyAt('00:10');
         $schedule->command('delete:redis-cache black_list_' . now()->subDay()->toDateString())->dailyAt('00:20');
         $schedule->command('telescope:prune --hours=72')->dailyAt('00:30');
+        $schedule->command('download:bing-wallpaper')->dailyAt('05:00');
         $schedule->command('delete:redis-cache black_list_' . now()->toDateString())->twiceDaily(7, 13);
     }
 
