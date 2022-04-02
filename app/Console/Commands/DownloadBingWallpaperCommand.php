@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands;
 
-use Haoyuqi\DownloadBingWallpaper\BingWallpaper;
+use Haoyuqi\DownloadBingWallpaper\Contracts\BingWallpaperInterface;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 
 class DownloadBingWallpaperCommand extends Command
 {
@@ -22,20 +22,26 @@ class DownloadBingWallpaperCommand extends Command
      */
     protected $description = 'Download bing wallpaper';
 
+    protected $bingWallpaper;
+
+    public function __construct(BingWallpaperInterface $bingWallpaper)
+    {
+        parent::__construct();
+
+        $this->bingWallpaper = $bingWallpaper;
+    }
+
     /**
      * Execute the console command.
      *
      * @return int
      */
-    public function handle(BingWallpaper $bingWallpaper)
+    public function handle()
     {
         $file_path = storage_path('bing-wallpaper');
         $file_name = today()->toDateString() . '.png';
-        if (!File::exists($file_path)) {
-            File::makeDirectory($file_path);
-        }
 
-        $res = $bingWallpaper->download($file_path . '/' . $file_name);
+        $res = $this->bingWallpaper->save($this->bingWallpaper->download(), $file_path, $file_name);
 
         $info = 'Download bing wallpaper ' . $file_name . ' ' . ($res ? 'success' : 'failed') . '.';
         info($info);

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3337e03f4a955a7a99d6dea2c7d13f66",
+    "content-hash": "1547d22907e097129170b1ce6b080436",
     "packages": [
         {
             "name": "brick/math",
@@ -1395,24 +1395,32 @@
         },
         {
             "name": "haoyuqi/download-bing-wallpaper",
-            "version": "1.0.0",
+            "version": "2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/haoyuqi/download-bing-wallpaper.git",
-                "reference": "c75d3ba130784650b22945afde594d3bc151d376"
+                "reference": "569d060ed759aa9ea21f73e6f5b2ab8d2e9db3b0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/haoyuqi/download-bing-wallpaper/zipball/c75d3ba130784650b22945afde594d3bc151d376",
-                "reference": "c75d3ba130784650b22945afde594d3bc151d376",
+                "url": "https://api.github.com/repos/haoyuqi/download-bing-wallpaper/zipball/569d060ed759aa9ea21f73e6f5b2ab8d2e9db3b0",
+                "reference": "569d060ed759aa9ea21f73e6f5b2ab8d2e9db3b0",
                 "shasum": ""
             },
             "require": {
                 "guzzlehttp/guzzle": "^7.4",
+                "illuminate/filesystem": "^8|^9",
                 "illuminate/support": "^8|^9",
                 "php": "^7.3|^8.0"
             },
             "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Haoyuqi\\DownloadBingWallpaper\\ServiceProvider"
+                    ]
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Haoyuqi\\DownloadBingWallpaper\\": "src/"
@@ -1431,9 +1439,9 @@
             "description": "Download bing wallpaper",
             "support": {
                 "issues": "https://github.com/haoyuqi/download-bing-wallpaper/issues",
-                "source": "https://github.com/haoyuqi/download-bing-wallpaper/tree/1.0.0"
+                "source": "https://github.com/haoyuqi/download-bing-wallpaper/tree/2.0.1"
             },
-            "time": "2022-03-27T04:59:55+00:00"
+            "time": "2022-04-02T08:23:23+00:00"
         },
         {
             "name": "haoyuqi/sort-function",

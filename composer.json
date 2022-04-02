@@ -12,7 +12,7 @@
         "encore/laravel-admin": "^1.8",
         "fruitcake/laravel-cors": "^3.0",
         "guzzlehttp/guzzle": "^7.4",
-        "haoyuqi/download-bing-wallpaper": "^1.0",
+        "haoyuqi/download-bing-wallpaper": "^2.0",
         "haoyuqi/sort-function": "^1.4",
         "laravel-admin-ext/log-viewer": "^1.0",
         "laravel/framework": "^9.0",
