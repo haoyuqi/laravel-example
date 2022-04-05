@@ -1395,16 +1395,16 @@
         },
         {
             "name": "haoyuqi/download-bing-wallpaper",
-            "version": "2.1.0",
+            "version": "2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/haoyuqi/download-bing-wallpaper.git",
-                "reference": "bd87b2ef71a2b1e6a7848a33e003581749d28b34"
+                "reference": "72b5574dd0d71b802ec9fae3a72af5ecdf5cb789"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/haoyuqi/download-bing-wallpaper/zipball/bd87b2ef71a2b1e6a7848a33e003581749d28b34",
-                "reference": "bd87b2ef71a2b1e6a7848a33e003581749d28b34",
+                "url": "https://api.github.com/repos/haoyuqi/download-bing-wallpaper/zipball/72b5574dd0d71b802ec9fae3a72af5ecdf5cb789",
+                "reference": "72b5574dd0d71b802ec9fae3a72af5ecdf5cb789",
                 "shasum": ""
             },
             "require": {
@@ -1439,9 +1439,9 @@
             "description": "Download bing wallpaper",
             "support": {
                 "issues": "https://github.com/haoyuqi/download-bing-wallpaper/issues",
-                "source": "https://github.com/haoyuqi/download-bing-wallpaper/tree/2.1.0"
+                "source": "https://github.com/haoyuqi/download-bing-wallpaper/tree/2.1.1"
             },
-            "time": "2022-04-03T05:17:31+00:00"
+            "time": "2022-04-05T02:24:53+00:00"
         },
         {
             "name": "haoyuqi/sort-function",

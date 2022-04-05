@@ -38,8 +38,9 @@ class DownloadBingWallpaperCommand extends Command
      */
     public function handle()
     {
-        $file_path = storage_path('bing-wallpaper');
-        $file_name = today()->toDateString() . '.png';
+        $today = today();
+        $file_path = storage_path('bing-wallpaper/' . $today->year . '/' . $today->format('m'));
+        $file_name = $today->toDateString() . '.png';
 
         $res = $this->bingWallpaper->save($this->bingWallpaper->download(), $file_path, $file_name);
 
