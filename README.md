@@ -22,6 +22,7 @@
 4. 修改 `.env` 中 `redis`、`mysql` 相关配置，`php artisan migrate`
 5. 服务器、域名配置
 6. `php-worker`, `laravel-horizon` 配置 `supervisord`, 维护队列   
+7. `php artisan admin:install` 生成后台默认账号密码 `admin` `admin`
 
 ## Laradock Container
 环境使用 [Laradock](https://github.com/laradock/laradock) 搭建，已使用如下容器
