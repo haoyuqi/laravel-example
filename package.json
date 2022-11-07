@@ -26,7 +26,7 @@
         "popper.js": "^1.16.1",
         "resolve-url-loader": "2.3.1",
         "sass": "~1.32.12",
-        "sass-loader": "7.*",
+        "sass-loader": "^13.1.0",
         "serialize-javascript": "^3.1.0",
         "socket.io-client": "^2.3.0",
         "vue": "^2.6.11",
