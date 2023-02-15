@@ -102,6 +102,7 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
+          port: ${{ secrets.PORT }}
           timeout: 2m
           script: ${{ secrets.WORKSPACE_CONTAINER }} 'cd ${{ secrets.WORKSPACE_CODE_PATH }} && php artisan down'
       - name: Clear Code
@@ -110,6 +111,7 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
+          port: ${{ secrets.PORT }}
           timeout: 2m
           script: |
             ${{ secrets.WORKSPACE_CONTAINER }} 'cd ${{ secrets.WORKSPACE_CODE_PATH }} && git reset --hard && git clean -df'
@@ -120,6 +122,7 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
+          port: ${{ secrets.PORT }}
           timeout: 2m
           script: ${{ secrets.WORKSPACE_CONTAINER }} 'cd ${{ secrets.WORKSPACE_CODE_PATH }} && git pull origin master'
       - name: Composer Install
@@ -128,6 +131,7 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
+          port: ${{ secrets.PORT }}
           timeout: 2m
           script: ${{ secrets.WORKSPACE_CONTAINER }} 'cd ${{ secrets.WORKSPACE_CODE_PATH }} && composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist --no-dev && composer dump-autoload'
       - name: Node Install
@@ -136,6 +140,7 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
+          port: ${{ secrets.PORT }}
           timeout: 2m
           script: ${{ secrets.WORKSPACE_CONTAINER }} 'cd ${{ secrets.WORKSPACE_CODE_PATH }} && npm install --quiet && npm run prod'
       - name: Laravel Migrate
@@ -144,6 +149,7 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
+          port: ${{ secrets.PORT }}
           timeout: 2m
           script: ${{ secrets.WORKSPACE_CONTAINER }} 'cd ${{ secrets.WORKSPACE_CODE_PATH }} && php artisan migrate --force'
       - name: Laravel Horizon Restart
@@ -152,6 +158,7 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
+          port: ${{ secrets.PORT }}
           timeout: 2m
           script: |
             ${{ secrets.LARAVEL_HORIZON_CONTAINER }} 'supervisorctl reload'
@@ -162,6 +169,7 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
+          port: ${{ secrets.PORT }}
           timeout: 2m
           script: |
             ${{ secrets.WORKSPACE_CONTAINER }} 'cd ${{ secrets.WORKSPACE_CODE_PATH }} && php artisan config:cache'
@@ -174,6 +182,7 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
+          port: ${{ secrets.PORT }}
           timeout: 2m
           script: ${{ secrets.WORKSPACE_CONTAINER }} 'cd ${{ secrets.WORKSPACE_CODE_PATH }} && php artisan up'
       - name: Deploy Test
