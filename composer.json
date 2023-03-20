@@ -16,13 +16,15 @@
         "haoyuqi/sort-function": "^1.4",
         "laravel-admin-ext/log-viewer": "^1.0",
         "laravel/framework": "^9.0",
+        "laravel/helpers": "^1.6",
         "laravel/horizon": "^5.9",
         "laravel/telescope": "^4.8",
         "laravel/tinker": "^2.7",
         "laravel/ui": "^3.4",
         "overtrue/laravel-lang": "~6.0",
         "spatie/laravel-db-snapshots": "^2.2",
-        "spatie/laravel-ignition": "^1.0"
+        "spatie/laravel-ignition": "^1.0",
+        "torann/geoip": "^3.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6",
