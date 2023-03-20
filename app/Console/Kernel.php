@@ -51,6 +51,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('telescope:prune --hours=72')->dailyAt('00:30');
         $schedule->command('download:bing-wallpaper')->dailyAt('05:00');
         $schedule->command('delete:redis-cache black_list_' . now()->toDateString())->twiceDaily(7, 13);
+        $schedule->command('geoip:clear')->everySixHours();
     }
 
     /**
