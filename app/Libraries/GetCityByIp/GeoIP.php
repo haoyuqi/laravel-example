@@ -14,7 +14,7 @@ class GeoIP extends GetCityByIpAbstract
             return '';
         }
 
-        $result = geoip($ip);
+        $result = geoip($ip)->toArray();
         if (!array_has($result, 'city') || blank(array_get($result, 'city'))) {
             Log::error('获取数据错误。');
             Log::error($ip);
