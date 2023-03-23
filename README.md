@@ -37,20 +37,20 @@
 * laravel-echo-server
 
 ## Composer Package
-| 名称                                                                             | 简介                 | 备注                                                      |
-|--------------------------------------------------------------------------------|--------------------|---------------------------------------------------------|
-| [Laravel Debugbar](https://github.com/barryvdh/laravel-debugbar)               | 调试工具               | dev                                                     |
-| [Laravel IDE Helper Generator](https://github.com/barryvdh/laravel-ide-helper) | IDE 开发工具           | dev                                                     |
+| 名称                                                                             | 简介                  | 备注                                                      |
+|--------------------------------------------------------------------------------|---------------------|---------------------------------------------------------|
+| [Laravel Debugbar](https://github.com/barryvdh/laravel-debugbar)               | 调试工具                | dev                                                     |
+| [Laravel IDE Helper Generator](https://github.com/barryvdh/laravel-ide-helper) | IDE 开发工具            | dev                                                     |
 | [Laravel UI](https://github.com/laravel/ui)                                    | Bootstrap 和 Vue 脚手架 |                                                         |
-| [Laravel Horizon](https://github.com/laravel/horizon)                          | 队列系统               |                                                         |
-| [Laravel-lang](https://github.com/overtrue/laravel-lang)                       | 语言包                |                                                         |
-| [laravel-db-snapshots](https://github.com/spatie/laravel-db-snapshots)         | 数据库备份工具            |                                                         |
-| [Laravel Telescope](https://github.com/laravel/telescope)                      | 调试工具               |                                                         |
-| [Sort functions](https://github.com/haoyuqi/sort-function)                     | 排序函数               | 练习用开发的 Composer 包                                       |
-| [Laravel-admin](https://github.com/z-song/laravel-admin)                       | 管理后台               |                                                         |
-| [Log viewer](https://github.com/laravel-admin-extensions/log-viewer)           | 后台插件               | Laravel-admin 插件。 `php artisan admin:import log-viewer` |
-| [Laravel Dusk](https://github.com/laravel/dusk)                                | 浏览器测试              | `php artisan dusk:install`                              |
-| [Laravel GeoIP](https://github.com/Torann/laravel-geoip)                       | 根据 IP 获取地址         |                                                       |
+| [Laravel Horizon](https://github.com/laravel/horizon)                          | 队列系统                |                                                         |
+| [Laravel-lang](https://github.com/overtrue/laravel-lang)                       | 语言包                 |                                                         |
+| [Laravel Telescope](https://github.com/laravel/telescope)                      | 调试工具                |                                                         |
+| [Sort functions](https://github.com/haoyuqi/sort-function)                     | 排序函数                | 练习用开发的 Composer 包                                       |
+| [Laravel-admin](https://github.com/z-song/laravel-admin)                       | 管理后台                |                                                         |
+| [Log viewer](https://github.com/laravel-admin-extensions/log-viewer)           | 后台插件                | Laravel-admin 插件。 `php artisan admin:import log-viewer` |
+| [Laravel Dusk](https://github.com/laravel/dusk)                                | 浏览器测试               | `php artisan dusk:install`                              |
+| [Laravel GeoIP](https://github.com/Torann/laravel-geoip)                       | 根据 IP 获取地址          |                                                       |
+| [Laravel Backup](https://github.com/spatie/laravel-backup)                     | 备份工具                |                                                       |
 
 ## Project supported by JetBrains
 

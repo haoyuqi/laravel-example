@@ -6,7 +6,6 @@ use App\Console\Commands\ClearFilesCommand;
 use App\Console\Commands\DeleteRedisCacheCommand;
 use App\Console\Commands\DownloadBingWallpaperCommand;
 use App\Console\Commands\SaveVisitsCountCommand;
-use App\Console\Commands\SyncDBBackupCommand;
 use App\Events\PushTimeEvent;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -19,7 +18,6 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        SyncDBBackupCommand::class,
         ClearFilesCommand::class,
         SaveVisitsCountCommand::class,
         DeleteRedisCacheCommand::class,
@@ -41,9 +39,9 @@ class Kernel extends ConsoleKernel
             event(new PushTimeEvent());
         })->everyMinute();
 
-        $schedule->command('snapshot:create --compress')->dailyAt('00:01');
-        // $schedule->command('sync:db-backup')->dailyAt('00:02');
-        $schedule->command('horizon:snapshot')->everyFiveMinutes();
+        $schedule->command('backup:run')->dailyAt('01:00');
+        $schedule->command('backup:clean')->dailyAt('01:10');
+        $schedule->command('backup:monitor')->dailyAt('01:20');
 
         $schedule->command('save:visits-count')->dailyAt('00:05');
         $schedule->command('clear:files')->dailyAt('00:10');
