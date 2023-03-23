@@ -39,6 +39,10 @@ class Kernel extends ConsoleKernel
             event(new PushTimeEvent());
         })->everyMinute();
 
+        $schedule->command('backup:run')->dailyAt('01:00');
+        $schedule->command('backup:clean')->dailyAt('01:10');
+        $schedule->command('backup:monitor')->dailyAt('01:20');
+
         $schedule->command('save:visits-count')->dailyAt('00:05');
         $schedule->command('clear:files')->dailyAt('00:10');
         $schedule->command('delete:redis-cache black_list_' . now()->subDay()->toDateString())->dailyAt('00:20');
