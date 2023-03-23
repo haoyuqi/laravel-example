@@ -22,7 +22,6 @@
         "laravel/tinker": "^2.7",
         "laravel/ui": "^3.4",
         "overtrue/laravel-lang": "~6.0",
-        "spatie/laravel-db-snapshots": "^2.2",
         "spatie/laravel-ignition": "^1.0",
         "torann/geoip": "^3.0"
     },

@@ -35,7 +35,6 @@ class ClearFilesCommand extends Command
 
         $this->paths = [
             ['path' => storage_path('logs'), 'expires' => 604800],
-            ['path' => Storage::disk(config('db-snapshots.disk'))->path(''), 'expires' => 604800],
         ];
     }
 

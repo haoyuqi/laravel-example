@@ -44,7 +44,6 @@
 | [Laravel UI](https://github.com/laravel/ui)                                    | Bootstrap 和 Vue 脚手架 |                                                         |
 | [Laravel Horizon](https://github.com/laravel/horizon)                          | 队列系统               |                                                         |
 | [Laravel-lang](https://github.com/overtrue/laravel-lang)                       | 语言包                |                                                         |
-| [laravel-db-snapshots](https://github.com/spatie/laravel-db-snapshots)         | 数据库备份工具            |                                                         |
 | [Laravel Telescope](https://github.com/laravel/telescope)                      | 调试工具               |                                                         |
 | [Sort functions](https://github.com/haoyuqi/sort-function)                     | 排序函数               | 练习用开发的 Composer 包                                       |
 | [Laravel-admin](https://github.com/z-song/laravel-admin)                       | 管理后台               |                                                         |

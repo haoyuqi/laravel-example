@@ -71,11 +71,6 @@ return [
             'url' => env('AWS_URL'),
         ],
 
-        'snapshots' => [
-            'driver' => 'local',
-            'root' => database_path('snapshots'),
-        ],
-
     ],
 
 ];
