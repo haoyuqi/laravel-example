@@ -3,10 +3,10 @@
 namespace App\Jobs;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class QueueJob implements ShouldQueue
 {
@@ -39,7 +39,7 @@ class QueueJob implements ShouldQueue
     public function handle()
     {
         for ($i = 0; $i < $this->count; $i++) {
-            cache()->put('key:' . $i, 'value:' . $i, rand(600, 900));
+            cache()->put('key:'.$i, 'value:'.$i, rand(600, 900));
         }
     }
 }

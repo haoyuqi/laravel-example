@@ -18,6 +18,7 @@ class SortController extends Controller
 
     /**
      * 冒泡排序
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function bubbleSort()
@@ -27,6 +28,7 @@ class SortController extends Controller
 
     /**
      * 快速排序
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function quickSort()
@@ -36,6 +38,7 @@ class SortController extends Controller
 
     /**
      * 选择排序
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function selectSort()
@@ -45,6 +48,7 @@ class SortController extends Controller
 
     /**
      * 插入排序
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function insertSort()

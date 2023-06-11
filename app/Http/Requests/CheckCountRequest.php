@@ -6,7 +6,6 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class CheckCountRequest extends FormRequest
 {
-
     // 跳转到 error 页面
     protected $redirectAction = 'IndexController@error';
 
@@ -28,7 +27,7 @@ class CheckCountRequest extends FormRequest
     public function rules()
     {
         return [
-            'count' => 'bail|required|integer|between:1,10000'
+            'count' => 'bail|required|integer|between:1,10000',
         ];
     }
 }

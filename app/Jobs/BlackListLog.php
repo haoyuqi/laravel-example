@@ -45,9 +45,10 @@ class BlackListLog implements ShouldQueue
     {
         $black_list = BlackList::where('ip', $this->blackListIp)->first();
 
-        if (!$black_list) {
+        if (! $black_list) {
             Log::error('black list log queue error.');
-            Log::error('find ' . $this->blackListIp . ' error.');
+            Log::error('find '.$this->blackListIp.' error.');
+
             return;
         }
 

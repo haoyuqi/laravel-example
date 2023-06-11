@@ -34,13 +34,13 @@ class VisitorController extends AdminController
             'logs as all_logs_count',
             'logs as today_logs_count' => function ($query) {
                 $query->whereDate('created_at', today());
-            }
+            },
         ]);
         $grid->model()->orderBy('id', 'desc');
         $grid->model()->with('logs');
 
         $grid->column('id', __(Visitor::$alias['id']))->display(function ($id) {
-            return '<a href="' . url('admin/visitor/' . $id) . '" target="_blank" >' . $id . '</a>';
+            return '<a href="'.url('admin/visitor/'.$id).'" target="_blank" >'.$id.'</a>';
         })->sortable();
 
         $grid->column('ip', __(Visitor::$alias['ip']));
@@ -89,7 +89,7 @@ class VisitorController extends AdminController
     /**
      * Make a show builder.
      *
-     * @param mixed $id
+     * @param  mixed  $id
      * @return Show
      */
     protected function detail($id)
@@ -111,6 +111,7 @@ class VisitorController extends AdminController
                 foreach ($collection as $key => $value) {
                     $value->number = $key + 1;
                 }
+
                 return $collection;
             });
 
@@ -128,7 +129,6 @@ class VisitorController extends AdminController
                 $filter->between('created_at', __(VisitorLog::$alias['created_at']))->datetime();
             });
         });
-
 
         return $show;
     }

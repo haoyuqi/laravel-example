@@ -10,13 +10,12 @@ class RecordVisitors
     /**
      * Handle an incoming request.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \Closure $next
+     * @param  \Illuminate\Http\Request  $request
      * @return mixed
      */
     public function handle($request, Closure $next)
     {
-        if (!app()->isLocal()) {
+        if (! app()->isLocal()) {
             $ip = request()->getClientIp();
             $request_url = $request->getRequestUri();
             $black_list_service = app()->make(BlackListService::class);

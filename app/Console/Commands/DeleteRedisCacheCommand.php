@@ -35,23 +35,23 @@ class DeleteRedisCacheCommand extends Command
 
     /**
      * Execute the console command.
-     *
      */
     public function handle()
     {
         $key = $this->argument('key');
 
-        if (!Redis::exists($key)) {
+        if (! Redis::exists($key)) {
             $info = "`$key` does not exist.";
         } else {
             $is_success = Redis::del($key);
-            $info = "`$key`" . ($is_success ? ' delete success.' : ' delete failed.');
+            $info = "`$key`".($is_success ? ' delete success.' : ' delete failed.');
         }
 
         info('Delete redis cache.');
         info($info);
 
         $this->info($info);
+
         return true;
     }
 }

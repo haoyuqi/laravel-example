@@ -1,8 +1,6 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -26,7 +24,7 @@ class AddBlackListMenuInAdmin extends Migration
                 'permission' => null,
                 'order' => $admin_menu_max_order + 1,
                 'updated_at' => now(),
-                'created_at' => now()
+                'created_at' => now(),
             ]);
 
             // role is Administrator

@@ -5,9 +5,9 @@
  * Date: 2019/11/3
  */
 
-use \Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Validator;
 
-if (!function_exists('is_ip')) {
+if (! function_exists('is_ip')) {
     function is_ip($ip)
     {
         return Validator::make(['ip' => $ip], [

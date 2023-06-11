@@ -26,5 +26,4 @@ class AddToBlackList extends BatchAction
 
         return $this->response()->success('添加成功！')->refresh();
     }
-
 }
