@@ -5,7 +5,6 @@ namespace App\Admin\Controllers;
 use App\Models\BlackList;
 use App\Models\BlackListLog;
 use App\Models\Visitor;
-use Carbon\Carbon;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -36,12 +35,12 @@ class BlackListController extends AdminController
             'logs as all_logs_count',
             'logs as today_logs_count' => function ($query) {
                 $query->whereDate('created_at', today());
-            }
+            },
         ]);
         $grid->model()->with('logs');
 
         $grid->column('id', __(BlackList::$alias['id']))->display(function ($id) {
-            return '<a href="' . url('admin/black_list/' . $id) . '" target="_blank" >' . $id . '</a>';
+            return '<a href="'.url('admin/black_list/'.$id).'" target="_blank" >'.$id.'</a>';
         })->sortable();
         $grid->column('ip', __(BlackList::$alias['ip']));
         $grid->column('city.city', __(Visitor::$alias['city']));
@@ -76,7 +75,7 @@ class BlackListController extends AdminController
     /**
      * Make a show builder.
      *
-     * @param mixed $id
+     * @param  mixed  $id
      * @return Show
      */
     protected function detail($id)
@@ -97,6 +96,7 @@ class BlackListController extends AdminController
                 foreach ($collection as $key => $value) {
                     $value->number = $key + 1;
                 }
+
                 return $collection;
             });
 

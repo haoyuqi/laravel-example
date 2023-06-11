@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Visitor extends BaseModel
@@ -23,7 +22,7 @@ class Visitor extends BaseModel
         'today_logs_count' => '今日访问数量',
         'all_logs_count' => '历史访问数量',
         'urls' => '访问记录',
-        'blackList-id' => '是否在黑名单'
+        'blackList-id' => '是否在黑名单',
     ];
 
     public function logs()

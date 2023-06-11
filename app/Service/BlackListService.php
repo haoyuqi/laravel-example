@@ -17,13 +17,14 @@ class BlackListService
 
     public function checkIp($ip, $url)
     {
-        $cache_key = 'black_list_' . now()->toDateString();
+        $cache_key = 'black_list_'.now()->toDateString();
 
         if (Redis::hexists($cache_key, $ip)) {
-            $is_black_ip = (bool)Redis::hget($cache_key, $ip);
+            $is_black_ip = (bool) Redis::hget($cache_key, $ip);
             if ($is_black_ip) {
                 dispatch(new BlackListLog($ip, $url));
             }
+
             return $is_black_ip;
         }
 
@@ -35,6 +36,6 @@ class BlackListService
             dispatch(new BlackListLog($ip, $url));
         }
 
-        return (bool)$res;
+        return (bool) $res;
     }
 }

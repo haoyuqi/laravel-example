@@ -27,7 +27,6 @@ class Kernel extends ConsoleKernel
     /**
      * Define the application's command schedule.
      *
-     * @param \Illuminate\Console\Scheduling\Schedule $schedule
      * @return void
      */
     protected function schedule(Schedule $schedule)
@@ -45,10 +44,10 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('save:visits-count')->dailyAt('00:05');
         $schedule->command('clear:files')->dailyAt('00:10');
-        $schedule->command('delete:redis-cache black_list_' . now()->subDay()->toDateString())->dailyAt('00:20');
+        $schedule->command('delete:redis-cache black_list_'.now()->subDay()->toDateString())->dailyAt('00:20');
         $schedule->command('telescope:prune --hours=72')->dailyAt('00:30');
         $schedule->command('download:bing-wallpaper')->dailyAt('05:00');
-        $schedule->command('delete:redis-cache black_list_' . now()->toDateString())->twiceDaily(7, 13);
+        $schedule->command('delete:redis-cache black_list_'.now()->toDateString())->twiceDaily(7, 13);
         $schedule->command('geoip:clear')->everySixHours();
     }
 
@@ -59,7 +58,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
-        $this->load(__DIR__ . '/Commands');
+        $this->load(__DIR__.'/Commands');
 
         require base_path('routes/console.php');
     }

@@ -7,5 +7,5 @@ return [
     'Sorry, your session has expired. Please refresh and try again.' => '很抱歉！您的 Session 已过期，请刷新后再试一次。',
     'Sorry, you are making too many requests to our servers.' => '很抱歉！您向我们的服务器发出太多请求了。',
     'Whoops, something went wrong on our servers.' => '哎呀，我们的服务器出了问题。',
-    'Sorry, we are doing some maintenance. Please check back soon.' => '很抱歉！我们正在维护网站，请稍候再回来。'
+    'Sorry, we are doing some maintenance. Please check back soon.' => '很抱歉！我们正在维护网站，请稍候再回来。',
 ];

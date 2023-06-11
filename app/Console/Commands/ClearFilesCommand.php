@@ -4,7 +4,6 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
 
 class ClearFilesCommand extends Command
 {
@@ -48,10 +47,9 @@ class ClearFilesCommand extends Command
         foreach ($this->paths as $item) {
             $files = collect(File::files($item['path']))
                 ->filter(function ($file, $key) use ($item) {
-                    return (
+                    return
                         basename($file) != '.gitignore' &&
-                        time() - File::lastModified($file) > $item['expires']
-                    );
+                        time() - File::lastModified($file) > $item['expires'];
                 });
 
             if ($files->isNotEmpty()) {

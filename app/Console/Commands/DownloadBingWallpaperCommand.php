@@ -4,7 +4,6 @@ namespace App\Console\Commands;
 
 use Haoyuqi\DownloadBingWallpaper\Contracts\BingWallpaperInterface;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Log;
 
 class DownloadBingWallpaperCommand extends Command
 {
@@ -39,12 +38,12 @@ class DownloadBingWallpaperCommand extends Command
     public function handle()
     {
         $today = today();
-        $file_path = storage_path('bing-wallpaper/' . $today->year . '/' . $today->format('m'));
-        $file_name = $today->toDateString() . '.png';
+        $file_path = storage_path('bing-wallpaper/'.$today->year.'/'.$today->format('m'));
+        $file_name = $today->toDateString().'.png';
 
         $res = $this->bingWallpaper->save($this->bingWallpaper->download(), $file_path, $file_name);
 
-        $info = 'Download bing wallpaper ' . $file_name . ' ' . ($res ? 'success' : 'failed') . '.';
+        $info = 'Download bing wallpaper '.$file_name.' '.($res ? 'success' : 'failed').'.';
         info($info);
         $this->info($info);
     }
