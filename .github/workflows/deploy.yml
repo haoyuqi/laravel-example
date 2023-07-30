@@ -65,7 +65,7 @@ jobs:
       - name: Database Migrate
         run: php artisan migrate
       - name: Upgrade Chrome Driver
-        run: php artisan dusk:chrome-driver --detect
+        run: php artisan dusk:chrome-driver 114
       - name: Start Chrome Drive
         run: ./vendor/laravel/dusk/bin/chromedriver-linux &
       - name: Start Web Server
