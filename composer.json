@@ -30,7 +30,7 @@
         "barryvdh/laravel-debugbar": "^3.6",
         "barryvdh/laravel-ide-helper": "^2.12",
         "filp/whoops": "^2.14",
-        "laravel/dusk": "^6.22",
+        "laravel/dusk": "^7.9",
         "laravel/pint": "^1.10",
         "laravel/sail": "^1.13",
         "mockery/mockery": "^1.5",
