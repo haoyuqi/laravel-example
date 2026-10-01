@@ -4,6 +4,8 @@ namespace App\Service;
 
 use App\Jobs\BlackListLog;
 use App\Models\BlackList;
+use Carbon\CarbonInterface;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
 
 class BlackListService
@@ -15,12 +17,43 @@ class BlackListService
         $this->blackModel = $blackList;
     }
 
+    public function cacheKey(?CarbonInterface $date = null): string
+    {
+        return 'black_list_'.($date ?? now())->toDateString();
+    }
+
+    public function forgetIp(string $ip): void
+    {
+        try {
+            Redis::hdel($this->cacheKey(), $ip);
+        } catch (\Throwable $e) {
+            Log::warning('blacklist cache invalidation failure', ['ip' => $ip, 'error' => $e->getMessage()]);
+        }
+    }
+
+    public function touchTtl(string $key): void
+    {
+        try {
+            Redis::expire($key, 172800);
+        } catch (\Throwable $e) {
+            Log::warning('blacklist cache write failure', ['key' => $key, 'error' => $e->getMessage()]);
+        }
+    }
+
     public function checkIp($ip, $url)
     {
-        $cache_key = 'black_list_'.now()->toDateString();
+        $cache_key = $this->cacheKey();
 
-        if (Redis::hexists($cache_key, $ip)) {
-            $is_black_ip = (bool) Redis::hget($cache_key, $ip);
+        try {
+            $cached = Redis::hget($cache_key, $ip);
+        } catch (\Throwable $e) {
+            Log::warning('blacklist cache read failure', ['ip' => $ip, 'error' => $e->getMessage()]);
+            $cached = null;
+        }
+
+        if ($cached !== null && $cached !== false) {
+            $is_black_ip = (bool) $cached;
+
             if ($is_black_ip) {
                 dispatch(new BlackListLog($ip, $url));
             }
@@ -30,7 +63,12 @@ class BlackListService
 
         $res = $this->blackModel->where('ip', $ip)->first();
 
-        Redis::hset($cache_key, $ip, ($res ? 1 : 0));
+        try {
+            Redis::hset($cache_key, $ip, ($res ? 1 : 0));
+            $this->touchTtl($cache_key);
+        } catch (\Throwable $e) {
+            Log::warning('blacklist cache write failure', ['ip' => $ip, 'error' => $e->getMessage()]);
+        }
 
         if ($res) {
             dispatch(new BlackListLog($ip, $url));
