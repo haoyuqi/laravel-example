@@ -42,38 +42,38 @@ class BlackListService
 
     public function checkIp($ip, $url)
     {
-        $cache_key = $this->cacheKey();
+        $cacheKey = $this->cacheKey();
 
         try {
-            $cached = Redis::hget($cache_key, $ip);
+            $cached = Redis::hget($cacheKey, $ip);
         } catch (\Throwable $e) {
             Log::warning('blacklist cache read failure', ['ip' => $ip, 'error' => $e->getMessage()]);
             $cached = null;
         }
 
         if ($cached !== null && $cached !== false) {
-            $is_black_ip = (bool) $cached;
+            $isBlackIp = (bool) $cached;
 
-            if ($is_black_ip) {
+            if ($isBlackIp) {
                 dispatch(new BlackListLog($ip, $url));
             }
 
-            return $is_black_ip;
+            return $isBlackIp;
         }
 
-        $res = $this->blackModel->where('ip', $ip)->first();
+        $blacklistRecord = $this->blackModel->where('ip', $ip)->first();
 
         try {
-            Redis::hset($cache_key, $ip, ($res ? 1 : 0));
-            $this->touchTtl($cache_key);
+            Redis::hset($cacheKey, $ip, ($blacklistRecord ? 1 : 0));
+            $this->touchTtl($cacheKey);
         } catch (\Throwable $e) {
             Log::warning('blacklist cache write failure', ['ip' => $ip, 'error' => $e->getMessage()]);
         }
 
-        if ($res) {
+        if ($blacklistRecord) {
             dispatch(new BlackListLog($ip, $url));
         }
 
-        return (bool) $res;
+        return (bool) $blacklistRecord;
     }
 }

@@ -24,10 +24,7 @@ AGENTS.md
 
 # Local planning documents
 plan/
-/docs/
-!/docs/
-/docs/*
-!docs/blacklist-cache.md
+docs/
 .sisyphus/
 .agent-plans/
 .omo/
