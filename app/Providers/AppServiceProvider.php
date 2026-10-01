@@ -7,6 +7,8 @@ use App\Libraries\BingWallpaper\Contracts\BingWallpaperInterface;
 use App\Libraries\GetCityByIp\FreeAPI;
 use App\Libraries\GetCityByIp\GeoIP;
 use App\Libraries\GetCityByIp\GetCityByIpAbstract;
+use App\Models\BlackList;
+use App\Observers\BlackListObserver;
 use GuzzleHttp\Client;
 use Illuminate\Support\ServiceProvider;
 
@@ -41,5 +43,7 @@ class AppServiceProvider extends ServiceProvider
             BingWallpaperInterface::class,
             BingWallpaper::class
         );
+
+        BlackList::observe(BlackListObserver::class);
     }
 }
