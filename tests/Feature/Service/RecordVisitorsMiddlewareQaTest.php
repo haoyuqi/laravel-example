@@ -7,6 +7,8 @@ use App\Models\BlackList;
 use App\Service\BlackListService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Redis;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Tests\TestCase;
@@ -44,6 +46,29 @@ class RecordVisitorsMiddlewareQaTest extends TestCase
         }
 
         BlackList::where('ip', $this->ip)->firstOrFail()->delete();
+        $response = $this->middleware()->handle($this->request(), fn () => new Response('continued', 200));
+
+        $this->assertSame(200, $response->getStatusCode());
+        $this->assertSame('continued', $response->getContent());
+    }
+
+    public function test_dispatch_failure_does_not_fail_request_and_logs_warning(): void
+    {
+        Log::shouldReceive('warning')
+            ->once()
+            ->with('visitor recording dispatch failure', \Mockery::on(fn (array $context): bool => $context['ip'] === $this->ip &&
+                $context['url'] === '/middleware-qa' &&
+                str_contains($context['error'], 'Redis queue failure')
+            ));
+
+        $queueMock = \Mockery::mock(\Illuminate\Contracts\Queue\Queue::class);
+        $queueMock->shouldReceive('push')
+            ->once()
+            ->andThrow(new \RuntimeException('Redis queue failure'));
+
+        Queue::shouldReceive('connection')
+            ->andReturn($queueMock);
+
         $response = $this->middleware()->handle($this->request(), fn () => new Response('continued', 200));
 
         $this->assertSame(200, $response->getStatusCode());

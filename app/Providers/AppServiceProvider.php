@@ -9,7 +9,13 @@ use App\Libraries\GetCityByIp\GeoIP;
 use App\Libraries\GetCityByIp\GetCityByIpAbstract;
 use App\Models\BlackList;
 use App\Observers\BlackListObserver;
+use App\Support\RedisFailureLogger;
 use GuzzleHttp\Client;
+use Illuminate\Foundation\Events\DiagnosingHealth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -25,6 +31,7 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register(TelescopeServiceProvider::class);
         }*/
         $this->app->register(TelescopeServiceProvider::class);
+        $this->app->singleton(RedisFailureLogger::class);
     }
 
     /**
@@ -45,5 +52,19 @@ class AppServiceProvider extends ServiceProvider
         );
 
         BlackList::observe(BlackListObserver::class);
+
+        Event::listen(DiagnosingHealth::class, function () {
+            try {
+                DB::select('SELECT 1');
+            } catch (\Throwable $e) {
+                Log::warning('Readiness check: database failure', ['error' => $e->getMessage()]);
+            }
+
+            try {
+                Redis::ping();
+            } catch (\Throwable $e) {
+                RedisFailureLogger::report('Readiness check: redis degraded', ['error' => $e->getMessage()]);
+            }
+        });
     }
 }

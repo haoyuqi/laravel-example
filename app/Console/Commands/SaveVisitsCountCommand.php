@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\VisitorStatistics;
+use App\Support\RedisFailureLogger;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Redis;
 
@@ -40,17 +41,32 @@ class SaveVisitsCountCommand extends Command
     public function handle()
     {
         $yesterday = now()->subDay();
+        $dateStr = $yesterday->toDateString();
 
-        $uv = new VisitorStatistics;
-        $uv->type = 'uv';
-        $uv->date = $yesterday;
-        $uv->count = Redis::scard('uv_set_'.$yesterday->toDateString()) ?? 0;
-        $uv->save();
+        try {
+            $uvCount = (int) (Redis::scard('uv_set_'.$dateStr) ?: 0);
+            $pvCount = (int) (Redis::get('pv_count_'.$dateStr) ?: 0);
+        } catch (\Throwable $e) {
+            RedisFailureLogger::report('failed to retrieve visits count from Redis', [
+                'date' => $dateStr,
+                'error' => $e->getMessage(),
+            ]);
 
-        $pv = new VisitorStatistics;
-        $pv->type = 'pv';
-        $pv->date = $yesterday;
-        $pv->count = Redis::get('pv_count_'.$yesterday->toDateString()) ?? 0;
-        $pv->save();
+            $this->warn('Failed to retrieve visits count from Redis: '.$e->getMessage());
+
+            return Command::FAILURE;
+        }
+
+        VisitorStatistics::updateOrCreate(
+            ['type' => 'uv', 'date' => $dateStr],
+            ['count' => $uvCount]
+        );
+
+        VisitorStatistics::updateOrCreate(
+            ['type' => 'pv', 'date' => $dateStr],
+            ['count' => $pvCount]
+        );
+
+        return Command::SUCCESS;
     }
 }

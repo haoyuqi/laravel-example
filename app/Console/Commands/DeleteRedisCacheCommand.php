@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Support\RedisFailureLogger;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Redis;
 
@@ -36,15 +37,26 @@ class DeleteRedisCacheCommand extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): int
     {
         $key = $this->argument('key');
 
-        if (! Redis::exists($key)) {
-            $info = "`$key` does not exist.";
-        } else {
-            $is_success = Redis::del($key);
-            $info = "`$key`".($is_success ? ' delete success.' : ' delete failed.');
+        try {
+            if (! Redis::exists($key)) {
+                $info = "`$key` does not exist.";
+            } else {
+                $is_success = Redis::del($key);
+                $info = "`$key`".($is_success ? ' delete success.' : ' delete failed.');
+            }
+        } catch (\Throwable $e) {
+            RedisFailureLogger::report('delete redis cache failure', [
+                'key' => $key,
+                'error' => $e->getMessage(),
+            ]);
+
+            $this->warn("Failed to delete redis cache for key `{$key}`: ".$e->getMessage());
+
+            return Command::FAILURE;
         }
 
         info('Delete redis cache.');
@@ -52,6 +64,6 @@ class DeleteRedisCacheCommand extends Command
 
         $this->info($info);
 
-        return true;
+        return Command::SUCCESS;
     }
 }
