@@ -18,6 +18,10 @@ trait CreatesApplication
 
         $app->make(Kernel::class)->bootstrap();
 
+        // Never share warning-throttle state with another test or the live app.
+        $app['config']->set('cache.stores.redis_failure_logs.path',
+            storage_path('framework/cache/testing-redis-failure-logs/'.bin2hex(random_bytes(8))));
+
         return $app;
     }
 }

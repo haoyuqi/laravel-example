@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Models\VisitorStatistics;
 use App\Support\RedisFailureLogger;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
 
 class SaveVisitsCountCommand extends Command
@@ -44,8 +45,17 @@ class SaveVisitsCountCommand extends Command
         $dateStr = $yesterday->toDateString();
 
         try {
-            $uvCount = (int) (Redis::scard('uv_set_'.$dateStr) ?: 0);
-            $pvCount = (int) (Redis::get('pv_count_'.$dateStr) ?: 0);
+            $uvCount = (int) Redis::scard('uv_set_'.$dateStr);
+            $pvCount = Redis::get('pv_count_'.$dateStr);
+
+            // Redis removes empty sets; a zero UV count means a missing snapshot.
+            if ($uvCount === 0 || $pvCount === null || $pvCount === false) {
+                $this->warn('Visits count is incomplete; database statistics were left unchanged.');
+
+                return Command::FAILURE;
+            }
+
+            $pvCount = (int) $pvCount;
         } catch (\Throwable $e) {
             RedisFailureLogger::report('failed to retrieve visits count from Redis', [
                 'date' => $dateStr,
@@ -57,26 +67,23 @@ class SaveVisitsCountCommand extends Command
             return Command::FAILURE;
         }
 
-        $this->saveStatistic('uv', $dateStr, $uvCount);
-        $this->saveStatistic('pv', $dateStr, $pvCount);
+        // Keep the existing append-only behavior; deduplication belongs to #141.
+        DB::transaction(function () use ($dateStr, $uvCount, $pvCount): void {
+            $this->saveStatistic('uv', $dateStr, $uvCount);
+            $this->saveStatistic('pv', $dateStr, $pvCount);
+        });
 
         return Command::SUCCESS;
     }
 
     /**
-     * Save visitor statistic idempotently, restoring soft-deleted records if present.
+     * Save a snapshot without modifying historical or soft-deleted records.
      */
     protected function saveStatistic(string $type, string $date, int $count): void
     {
-        $statistic = VisitorStatistics::withTrashed()->firstOrNew([
-            'type' => $type,
-            'date' => $date,
-        ]);
-
-        if ($statistic->trashed()) {
-            $statistic->restore();
-        }
-
+        $statistic = new VisitorStatistics;
+        $statistic->type = $type;
+        $statistic->date = $date;
         $statistic->count = $count;
         $statistic->save();
     }

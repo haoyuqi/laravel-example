@@ -55,7 +55,7 @@ class BlackListService
             $isBlackIp = (bool) $cached;
 
             if ($isBlackIp) {
-                dispatch(new BlackListLog($ip, $url));
+                $this->recordBlockedRequest($ip, $url);
             }
 
             return $isBlackIp;
@@ -71,9 +71,22 @@ class BlackListService
         }
 
         if ($blacklistRecord) {
-            dispatch(new BlackListLog($ip, $url));
+            $this->recordBlockedRequest($ip, $url);
         }
 
         return (bool) $blacklistRecord;
+    }
+
+    private function recordBlockedRequest(string $ip, string $url): void
+    {
+        try {
+            dispatch(new BlackListLog($ip, $url));
+        } catch (\Throwable $e) {
+            RedisFailureLogger::report('blacklist logging dispatch failure', [
+                'ip' => $ip,
+                'url' => $url,
+                'error' => $e->getMessage(),
+            ]);
+        }
     }
 }

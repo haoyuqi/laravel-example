@@ -80,6 +80,40 @@ class RecordVisitorsMiddlewareQaTest extends TestCase
         return app(RecordVisitors::class);
     }
 
+    public function test_database_blacklist_fallback_still_blocks_when_redis_queue_is_down(): void
+    {
+        BlackList::withoutEvents(fn () => BlackList::create(['ip' => $this->ip]));
+        Redis::shouldReceive('hget')->once()->andThrow(new \RuntimeException('Redis unavailable'));
+        Redis::shouldReceive('hset')->once()->andThrow(new \RuntimeException('Redis unavailable'));
+
+        $this->assertBlockedWithFailedLogQueue();
+    }
+
+    public function test_cached_blacklist_hit_still_blocks_when_log_queue_is_down(): void
+    {
+        $this->redisConnection->hset($this->key, $this->ip, '1');
+
+        $this->assertBlockedWithFailedLogQueue();
+    }
+
+    private function assertBlockedWithFailedLogQueue(): void
+    {
+        Log::shouldReceive('warning')->with('blacklist cache read failure', \Mockery::type('array'))->zeroOrMoreTimes();
+        Log::shouldReceive('warning')->with('blacklist cache write failure', \Mockery::type('array'))->zeroOrMoreTimes();
+        Log::shouldReceive('warning')->once()->with('blacklist logging dispatch failure', \Mockery::type('array'));
+
+        $queue = \Mockery::mock(\Illuminate\Contracts\Queue\Queue::class);
+        $queue->shouldReceive('push')->once()->andThrow(new \RuntimeException('Redis queue unavailable'));
+        Queue::shouldReceive('connection')->andReturn($queue);
+
+        try {
+            $this->middleware()->handle($this->request(), fn () => new Response('continued', 200));
+            $this->fail('Expected the blacklist to block the request.');
+        } catch (HttpException $e) {
+            $this->assertSame(403, $e->getStatusCode());
+        }
+    }
+
     private function request(): Request
     {
         return Request::create('/middleware-qa', 'GET', server: ['REMOTE_ADDR' => $this->ip]);

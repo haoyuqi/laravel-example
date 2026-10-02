@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Console;
 
+use App\Console\Commands\SaveVisitsCountCommand;
 use App\Models\VisitorStatistics;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
@@ -35,7 +36,7 @@ class SaveVisitsCountCommandTest extends TestCase
         $this->pvKey = 'pv_count_'.$this->dateStr;
     }
 
-    public function test_save_visits_count_persists_data_and_updates_on_rerun(): void
+    public function test_save_visits_count_appends_snapshots_without_rewriting_history(): void
     {
         $this->redisConnection->sadd($this->uvKey, '198.51.100.1', '198.51.100.2');
         $this->redisConnection->set($this->pvKey, '42');
@@ -56,12 +57,17 @@ class SaveVisitsCountCommandTest extends TestCase
 
         $this->assertSame(2, VisitorStatistics::count());
 
-        // Update Redis count and rerun: should updateOrCreate rather than insert duplicate
+        // Idempotency/deduplication is deliberately deferred to #141.
         $this->redisConnection->set($this->pvKey, '50');
         $this->artisan('save:visits-count')
             ->assertExitCode(Command::SUCCESS);
 
-        $this->assertSame(2, VisitorStatistics::count());
+        $this->assertSame(4, VisitorStatistics::count());
+        $this->assertDatabaseHas('visitor_statistics', [
+            'type' => 'pv',
+            'date' => $this->dateStr,
+            'count' => 42,
+        ]);
         $this->assertDatabaseHas('visitor_statistics', [
             'type' => 'pv',
             'date' => $this->dateStr,
@@ -86,7 +92,7 @@ class SaveVisitsCountCommandTest extends TestCase
         $this->assertSame(0, VisitorStatistics::count());
     }
 
-    public function test_save_visits_count_succeeds_even_when_soft_deleted_record_exists(): void
+    public function test_save_visits_count_preserves_soft_deleted_records(): void
     {
         $trashed = VisitorStatistics::create([
             'type' => 'uv',
@@ -102,12 +108,66 @@ class SaveVisitsCountCommandTest extends TestCase
             ->assertExitCode(Command::SUCCESS);
 
         $this->assertSame(2, VisitorStatistics::count());
+        $this->assertSoftDeleted('visitor_statistics', ['id' => $trashed->id, 'count' => 10]);
         $this->assertDatabaseHas('visitor_statistics', [
             'type' => 'uv',
             'date' => $this->dateStr,
             'count' => 1,
             'deleted_at' => null,
         ]);
+    }
+
+    public function test_missing_redis_snapshot_does_not_change_existing_statistics(): void
+    {
+        $original = VisitorStatistics::create(['type' => 'pv', 'date' => $this->dateStr, 'count' => 42]);
+
+        $this->artisan('save:visits-count')->assertExitCode(Command::FAILURE);
+
+        $this->assertSame(1, VisitorStatistics::count());
+        $this->assertSame(42, (int) $original->fresh()->count);
+    }
+
+    public function test_partial_redis_snapshot_is_not_saved(): void
+    {
+        $this->redisConnection->sadd($this->uvKey, '198.51.100.1');
+
+        $this->artisan('save:visits-count')->assertExitCode(Command::FAILURE);
+
+        $this->assertSame(0, VisitorStatistics::count());
+    }
+
+    public function test_legacy_duplicate_statistics_are_preserved(): void
+    {
+        foreach ([20, 30] as $count) {
+            VisitorStatistics::create(['type' => 'pv', 'date' => $this->dateStr, 'count' => $count]);
+        }
+        $this->redisConnection->sadd($this->uvKey, '198.51.100.1');
+        $this->redisConnection->set($this->pvKey, '40');
+
+        $this->artisan('save:visits-count')->assertExitCode(Command::SUCCESS);
+
+        $this->assertSame([20, 30, 40], VisitorStatistics::where('type', 'pv')->orderBy('id')->pluck('count')->map(fn ($count) => (int) $count)->all());
+    }
+
+    public function test_uv_and_pv_are_rolled_back_together_if_database_write_fails(): void
+    {
+        $this->redisConnection->sadd($this->uvKey, '198.51.100.1');
+        $this->redisConnection->set($this->pvKey, '42');
+        VisitorStatistics::saving(function (VisitorStatistics $statistic): void {
+            if ($statistic->type === 'pv') {
+                throw new \RuntimeException('Simulated PV write failure');
+            }
+        });
+
+        try {
+            app(SaveVisitsCountCommand::class)->handle();
+            $this->fail('Expected the PV write to fail.');
+        } catch (\RuntimeException $e) {
+            $this->assertSame('Simulated PV write failure', $e->getMessage());
+            $this->assertSame(0, VisitorStatistics::count());
+        } finally {
+            VisitorStatistics::flushEventListeners();
+        }
     }
 
     protected function tearDown(): void
