@@ -8,9 +8,11 @@ use App\Filament\Widgets\StatsOverview;
 use App\Models\BlackList;
 use App\Models\User;
 use App\Models\Visitor;
+use App\Support\RedisFailureLogger;
 use Exception;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
 use Livewire\Livewire;
 use Tests\TestCase;
@@ -23,6 +25,7 @@ class StatsOverviewWidgetTest extends TestCase
     {
         parent::setUp();
 
+        RedisFailureLogger::reset();
         Cache::forget('stats_overview_visitors_count');
         Cache::forget('stats_overview_blacklist_count');
 
@@ -31,6 +34,8 @@ class StatsOverviewWidgetTest extends TestCase
 
     protected function tearDown(): void
     {
+        RedisFailureLogger::reset();
+        Cache::clearResolvedInstances();
         Cache::forget('stats_overview_visitors_count');
         Cache::forget('stats_overview_blacklist_count');
         Redis::clearResolvedInstances();
@@ -120,6 +125,11 @@ class StatsOverviewWidgetTest extends TestCase
 
     public function test_stats_overview_widget_handles_redis_failure_gracefully(): void
     {
+        Log::shouldReceive('warning')
+            ->once()
+            ->with('Failed to retrieve PV/UV stats from Redis', \Mockery::on(fn (array $context): bool => str_contains($context['error'], 'Redis connection timed out')
+            ));
+
         Redis::shouldReceive('get')
             ->andThrow(new Exception('Redis connection timed out'));
 
@@ -130,6 +140,24 @@ class StatsOverviewWidgetTest extends TestCase
             ->assertSee('0')
             ->assertSee('今日 UV')
             ->assertSee('0');
+    }
+
+    public function test_stats_overview_widget_handles_cache_failure_gracefully(): void
+    {
+        Visitor::create(['ip' => '172.16.0.20', 'city' => 'Shenzhen']);
+        BlackList::create(['ip' => '192.168.20.1']);
+
+        Cache::shouldReceive('forget')->byDefault();
+        Cache::shouldReceive('remember')
+            ->andThrow(new Exception('Redis cache connection refused'));
+
+        Livewire::actingAs($this->admin)
+            ->test(StatsOverview::class)
+            ->assertSuccessful()
+            ->assertSee('访客总数')
+            ->assertSee('1')
+            ->assertSee('黑名单 IP')
+            ->assertSee('1');
     }
 
     public function test_filament_dashboard_homepage_includes_stats_overview_widget(): void
@@ -173,7 +201,7 @@ class StatsOverviewWidgetTest extends TestCase
             ->test(HealthStatusWidget::class)
             ->assertSuccessful()
             ->assertSee('Redis 缓存')
-            ->assertSee('PHP 8.3')
+            ->assertSee('PHP '.PHP_MAJOR_VERSION.'.'.PHP_MINOR_VERSION)
             ->assertSee('Laravel 13')
             ->assertSee('Debug');
 

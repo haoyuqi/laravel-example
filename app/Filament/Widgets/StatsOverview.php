@@ -5,16 +5,18 @@ namespace App\Filament\Widgets;
 use App\Models\BlackList;
 use App\Models\Visitor;
 use App\Models\VisitorStatistics;
+use App\Support\RedisFailureLogger;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
 
 class StatsOverview extends BaseWidget
 {
     protected static ?int $sort = 0;
+
+    protected static bool $isLazy = false;
 
     protected function getStats(): array
     {
@@ -26,11 +28,19 @@ class StatsOverview extends BaseWidget
             $pv = (int) (Redis::get('pv_count_'.$date) ?: 0);
             $uv = (int) (Redis::scard('uv_set_'.$date) ?: 0);
         } catch (\Throwable $e) {
-            Log::warning('Failed to retrieve PV/UV stats from Redis: '.$e->getMessage());
+            RedisFailureLogger::report('Failed to retrieve PV/UV stats from Redis', [
+                'error' => $e->getMessage(),
+            ]);
         }
 
-        $visitorsCount = (int) Cache::remember('stats_overview_visitors_count', 60, fn () => Visitor::count());
-        $blacklistCount = (int) Cache::remember('stats_overview_blacklist_count', 60, fn () => BlackList::count());
+        $visitorsCount = (int) rescue(
+            fn () => Cache::remember('stats_overview_visitors_count', 60, fn () => Visitor::count()),
+            fn () => Visitor::count()
+        );
+        $blacklistCount = (int) rescue(
+            fn () => Cache::remember('stats_overview_blacklist_count', 60, fn () => BlackList::count()),
+            fn () => BlackList::count()
+        );
 
         $sparklineMap = $this->getWeeklySparklines($pv, $uv);
 

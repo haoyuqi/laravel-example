@@ -4,6 +4,8 @@ namespace App\Service;
 
 use App\Jobs\BlackListLog;
 use App\Models\BlackList;
+use App\Support\RedisFailureLogger;
+use Carbon\CarbonInterface;
 use Illuminate\Support\Facades\Redis;
 
 class BlackListService
@@ -15,27 +17,76 @@ class BlackListService
         $this->blackModel = $blackList;
     }
 
+    public function cacheKey(?CarbonInterface $date = null): string
+    {
+        return 'black_list_'.($date ?? now())->toDateString();
+    }
+
+    public function forgetIp(string $ip): void
+    {
+        try {
+            Redis::hdel($this->cacheKey(), $ip);
+        } catch (\Throwable $e) {
+            RedisFailureLogger::report('blacklist cache invalidation failure', ['ip' => $ip, 'error' => $e->getMessage()]);
+        }
+    }
+
+    public function touchTtl(string $key): void
+    {
+        try {
+            Redis::expire($key, 172800);
+        } catch (\Throwable $e) {
+            RedisFailureLogger::report('blacklist cache write failure', ['key' => $key, 'error' => $e->getMessage()]);
+        }
+    }
+
     public function checkIp($ip, $url)
     {
-        $cache_key = 'black_list_'.now()->toDateString();
+        $cacheKey = $this->cacheKey();
 
-        if (Redis::hexists($cache_key, $ip)) {
-            $is_black_ip = (bool) Redis::hget($cache_key, $ip);
-            if ($is_black_ip) {
-                dispatch(new BlackListLog($ip, $url));
+        try {
+            $cached = Redis::hget($cacheKey, $ip);
+        } catch (\Throwable $e) {
+            RedisFailureLogger::report('blacklist cache read failure', ['ip' => $ip, 'error' => $e->getMessage()]);
+            $cached = null;
+        }
+
+        if ($cached !== null && $cached !== false) {
+            $isBlackIp = (bool) $cached;
+
+            if ($isBlackIp) {
+                $this->recordBlockedRequest($ip, $url);
             }
 
-            return $is_black_ip;
+            return $isBlackIp;
         }
 
-        $res = $this->blackModel->where('ip', $ip)->first();
+        $blacklistRecord = $this->blackModel->where('ip', $ip)->first();
 
-        Redis::hset($cache_key, $ip, ($res ? 1 : 0));
+        try {
+            Redis::hset($cacheKey, $ip, ($blacklistRecord ? 1 : 0));
+            $this->touchTtl($cacheKey);
+        } catch (\Throwable $e) {
+            RedisFailureLogger::report('blacklist cache write failure', ['ip' => $ip, 'error' => $e->getMessage()]);
+        }
 
-        if ($res) {
+        if ($blacklistRecord) {
+            $this->recordBlockedRequest($ip, $url);
+        }
+
+        return (bool) $blacklistRecord;
+    }
+
+    private function recordBlockedRequest(string $ip, string $url): void
+    {
+        try {
             dispatch(new BlackListLog($ip, $url));
+        } catch (\Throwable $e) {
+            RedisFailureLogger::report('blacklist logging dispatch failure', [
+                'ip' => $ip,
+                'url' => $url,
+                'error' => $e->getMessage(),
+            ]);
         }
-
-        return (bool) $res;
     }
 }

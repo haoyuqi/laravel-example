@@ -103,4 +103,6 @@ return [
         )
     ),
 
+    'health_path' => env('APP_HEALTH_PATH', '/up'),
+
 ];

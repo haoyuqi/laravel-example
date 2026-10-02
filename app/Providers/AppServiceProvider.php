@@ -7,6 +7,9 @@ use App\Libraries\BingWallpaper\Contracts\BingWallpaperInterface;
 use App\Libraries\GetCityByIp\FreeAPI;
 use App\Libraries\GetCityByIp\GeoIP;
 use App\Libraries\GetCityByIp\GetCityByIpAbstract;
+use App\Models\BlackList;
+use App\Observers\BlackListObserver;
+use App\Support\RedisFailureLogger;
 use GuzzleHttp\Client;
 use Illuminate\Support\ServiceProvider;
 
@@ -23,6 +26,7 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register(TelescopeServiceProvider::class);
         }*/
         $this->app->register(TelescopeServiceProvider::class);
+        $this->app->singleton(RedisFailureLogger::class);
     }
 
     /**
@@ -41,5 +45,8 @@ class AppServiceProvider extends ServiceProvider
             BingWallpaperInterface::class,
             BingWallpaper::class
         );
+
+        BlackList::observe(BlackListObserver::class);
+
     }
 }

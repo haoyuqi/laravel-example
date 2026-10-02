@@ -10,5 +10,7 @@ class VisitorStatistics extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $fillable = ['type', 'date', 'count'];
+
     protected $dates = ['deleted_at'];
 }
