@@ -45,8 +45,8 @@ class DeleteRedisCacheCommand extends Command
             if (! Redis::exists($key)) {
                 $info = "`$key` does not exist.";
             } else {
-                $is_success = Redis::del($key);
-                $info = "`$key`".($is_success ? ' delete success.' : ' delete failed.');
+                $isSuccess = Redis::del($key);
+                $info = "`$key`".($isSuccess ? ' delete success.' : ' delete failed.');
             }
         } catch (\Throwable $e) {
             RedisFailureLogger::report('delete redis cache failure', [

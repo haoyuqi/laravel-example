@@ -23,11 +23,11 @@ class CountPvAndUv
         $ip = $request->getClientIp();
 
         try {
-            $uv_key = 'uv_set_'.now()->toDateString();
-            Redis::sadd($uv_key, $ip);
+            $uvKey = 'uv_set_'.now()->toDateString();
+            Redis::sadd($uvKey, $ip);
 
-            $pv_key = 'pv_count_'.now()->toDateString();
-            Redis::incr($pv_key);
+            $pvKey = 'pv_count_'.now()->toDateString();
+            Redis::incr($pvKey);
         } catch (\Throwable $e) {
             RedisFailureLogger::report('pv/uv count failure', [
                 'ip' => $ip,

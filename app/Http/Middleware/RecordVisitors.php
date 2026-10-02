@@ -23,19 +23,19 @@ class RecordVisitors
 
         if (! app()->isLocal()) {
             $ip = $request->getClientIp();
-            $request_url = $request->getRequestUri();
-            $black_list_service = app()->make(BlackListService::class);
+            $requestUrl = $request->getRequestUri();
+            $blackListService = app()->make(BlackListService::class);
 
-            if ($black_list_service->checkIp($ip, $request_url)) {
+            if ($blackListService->checkIp($ip, $requestUrl)) {
                 abort(403);
             }
 
             try {
-                dispatch(new RecordVisitorsJob($ip, $request_url));
+                dispatch(new RecordVisitorsJob($ip, $requestUrl));
             } catch (\Throwable $e) {
                 RedisFailureLogger::report('visitor recording dispatch failure', [
                     'ip' => $ip,
-                    'url' => $request_url,
+                    'url' => $requestUrl,
                     'error' => $e->getMessage(),
                 ]);
             }
