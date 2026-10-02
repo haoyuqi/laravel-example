@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Jobs\RecordVisitors as RecordVisitorsJob;
 use App\Service\BlackListService;
+use App\Support\RedisFailureLogger;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,16 +16,29 @@ class RecordVisitors
      */
     public function handle(Request $request, Closure $next): Response
     {
+        $healthPath = ltrim((string) config('app.health_path', '/up'), '/');
+        if (($healthPath !== '' && $request->is($healthPath)) || $request->is('health/*')) {
+            return $next($request);
+        }
+
         if (! app()->isLocal()) {
             $ip = $request->getClientIp();
-            $request_url = $request->getRequestUri();
-            $black_list_service = app()->make(BlackListService::class);
+            $requestUrl = $request->getRequestUri();
+            $blackListService = app()->make(BlackListService::class);
 
-            if ($black_list_service->checkIp($ip, $request_url)) {
+            if ($blackListService->checkIp($ip, $requestUrl)) {
                 abort(403);
             }
 
-            dispatch(new RecordVisitorsJob($ip, $request_url));
+            try {
+                dispatch(new RecordVisitorsJob($ip, $requestUrl));
+            } catch (\Throwable $e) {
+                RedisFailureLogger::report('visitor recording dispatch failure', [
+                    'ip' => $ip,
+                    'url' => $requestUrl,
+                    'error' => $e->getMessage(),
+                ]);
+            }
         }
 
         return $next($request);

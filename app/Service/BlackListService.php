@@ -4,8 +4,8 @@ namespace App\Service;
 
 use App\Jobs\BlackListLog;
 use App\Models\BlackList;
+use App\Support\RedisFailureLogger;
 use Carbon\CarbonInterface;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
 
 class BlackListService
@@ -27,7 +27,7 @@ class BlackListService
         try {
             Redis::hdel($this->cacheKey(), $ip);
         } catch (\Throwable $e) {
-            Log::warning('blacklist cache invalidation failure', ['ip' => $ip, 'error' => $e->getMessage()]);
+            RedisFailureLogger::report('blacklist cache invalidation failure', ['ip' => $ip, 'error' => $e->getMessage()]);
         }
     }
 
@@ -36,7 +36,7 @@ class BlackListService
         try {
             Redis::expire($key, 172800);
         } catch (\Throwable $e) {
-            Log::warning('blacklist cache write failure', ['key' => $key, 'error' => $e->getMessage()]);
+            RedisFailureLogger::report('blacklist cache write failure', ['key' => $key, 'error' => $e->getMessage()]);
         }
     }
 
@@ -47,7 +47,7 @@ class BlackListService
         try {
             $cached = Redis::hget($cacheKey, $ip);
         } catch (\Throwable $e) {
-            Log::warning('blacklist cache read failure', ['ip' => $ip, 'error' => $e->getMessage()]);
+            RedisFailureLogger::report('blacklist cache read failure', ['ip' => $ip, 'error' => $e->getMessage()]);
             $cached = null;
         }
 
@@ -55,7 +55,7 @@ class BlackListService
             $isBlackIp = (bool) $cached;
 
             if ($isBlackIp) {
-                dispatch(new BlackListLog($ip, $url));
+                $this->recordBlockedRequest($ip, $url);
             }
 
             return $isBlackIp;
@@ -67,13 +67,26 @@ class BlackListService
             Redis::hset($cacheKey, $ip, ($blacklistRecord ? 1 : 0));
             $this->touchTtl($cacheKey);
         } catch (\Throwable $e) {
-            Log::warning('blacklist cache write failure', ['ip' => $ip, 'error' => $e->getMessage()]);
+            RedisFailureLogger::report('blacklist cache write failure', ['ip' => $ip, 'error' => $e->getMessage()]);
         }
 
         if ($blacklistRecord) {
-            dispatch(new BlackListLog($ip, $url));
+            $this->recordBlockedRequest($ip, $url);
         }
 
         return (bool) $blacklistRecord;
+    }
+
+    private function recordBlockedRequest(string $ip, string $url): void
+    {
+        try {
+            dispatch(new BlackListLog($ip, $url));
+        } catch (\Throwable $e) {
+            RedisFailureLogger::report('blacklist logging dispatch failure', [
+                'ip' => $ip,
+                'url' => $url,
+                'error' => $e->getMessage(),
+            ]);
+        }
     }
 }

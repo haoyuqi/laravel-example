@@ -52,6 +52,12 @@ return [
             'path' => storage_path('framework/cache/data'),
         ],
 
+        // Separate from the default cache so Redis outages cannot break throttling.
+        'redis_failure_logs' => [
+            'driver' => 'file',
+            'path' => storage_path('framework/cache/redis-failure-logs'),
+        ],
+
         'memcached' => [
             'driver' => 'memcached',
             'persistent_id' => env('MEMCACHED_PERSISTENT_ID'),
