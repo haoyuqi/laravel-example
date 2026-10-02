@@ -57,16 +57,27 @@ class SaveVisitsCountCommand extends Command
             return Command::FAILURE;
         }
 
-        VisitorStatistics::updateOrCreate(
-            ['type' => 'uv', 'date' => $dateStr],
-            ['count' => $uvCount]
-        );
-
-        VisitorStatistics::updateOrCreate(
-            ['type' => 'pv', 'date' => $dateStr],
-            ['count' => $pvCount]
-        );
+        $this->saveStatistic('uv', $dateStr, $uvCount);
+        $this->saveStatistic('pv', $dateStr, $pvCount);
 
         return Command::SUCCESS;
+    }
+
+    /**
+     * Save visitor statistic idempotently, restoring soft-deleted records if present.
+     */
+    protected function saveStatistic(string $type, string $date, int $count): void
+    {
+        $statistic = VisitorStatistics::withTrashed()->firstOrNew([
+            'type' => $type,
+            'date' => $date,
+        ]);
+
+        if ($statistic->trashed()) {
+            $statistic->restore();
+        }
+
+        $statistic->count = $count;
+        $statistic->save();
     }
 }
