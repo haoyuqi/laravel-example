@@ -67,6 +67,7 @@ class CountPvAndUvRedisFailureTest extends TestCase
             ));
 
         Redis::shouldReceive('sadd')->once()->andReturn(1);
+        Redis::shouldReceive('expireat')->once()->andReturn(1);
         Redis::shouldReceive('incr')
             ->once()
             ->andThrow(new \RuntimeException('Redis incr failed'));
@@ -109,6 +110,8 @@ class CountPvAndUvRedisFailureTest extends TestCase
         $this->assertSame(200, $response->getStatusCode());
         $this->assertSame(1, (int) $this->redisConnection->sismember($this->uvKey, $ip));
         $this->assertSame(1, (int) $this->redisConnection->get($this->pvKey));
+        $this->assertGreaterThan(0, $this->redisConnection->ttl($this->pvKey));
+        $this->assertGreaterThan(0, $this->redisConnection->ttl($this->uvKey));
     }
 
     public function test_health_routes_bypass_pv_uv_counting(): void
@@ -125,6 +128,16 @@ class CountPvAndUvRedisFailureTest extends TestCase
 
         $this->assertSame(200, $response1->getStatusCode());
         $this->assertSame(200, $response2->getStatusCode());
+    }
+
+    public function test_expiration_failure_does_not_fail_the_page_request(): void
+    {
+        Redis::shouldReceive('sadd')->once()->andReturn(1);
+        Redis::shouldReceive('expireat')->once()->andThrow(new \RuntimeException('Expiration failed'));
+        Log::shouldReceive('warning')->once()->with('pv/uv count failure', \Mockery::type('array'));
+        $request = Request::create('/test-pv-uv', 'GET', server: ['REMOTE_ADDR' => '198.51.100.204']);
+        $response = (new CountPvAndUv)->handle($request, fn () => new Response('ok', 200));
+        $this->assertSame(200, $response->getStatusCode());
     }
 
     protected function tearDown(): void

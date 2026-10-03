@@ -1,5 +1,45 @@
 # Upgrade Guide
 
+## Visitor statistics migration (#141)
+
+Before deploying `2026_10_02_000000_make_visitor_statistics_unique`, back up the
+database and stop the scheduler and all statistics writers. MySQL DDL commits
+implicitly, so maintenance mode must cover deduplication and index creation.
+Rehearse against a copy of production data first. Audit duplicate groups with:
+
+```sql
+SELECT type, date, COUNT(*) AS snapshots
+FROM visitor_statistics
+GROUP BY type, date
+HAVING COUNT(*) > 1;
+```
+
+The migration retains one nonnegative cumulative snapshot per type/date. Active
+rows take priority over soft-deleted rows; within that category, the latest
+`updated_at` (falling back to `created_at`) wins, then the highest ID breaks ties.
+Counts are never summed or selected by maximum value. If all snapshots in a
+duplicate group are negative, the migration aborts for manual repair and rolls
+back its data changes. Every discarded row, including its ID, timestamps and
+soft-delete state, is retained in `visitor_statistics_duplicates`.
+
+After migration, `save:visits-count` atomically upserts yesterday's PV/UV pair.
+Repeating it updates the same rows and restores a soft-deleted row when a fresh
+snapshot is available. Missing Redis snapshots leave existing statistics alone.
+Both newly counted and successfully persisted Redis keys expire at midnight
+eight calendar days after their statistics date: seven complete days are
+available for retries after that date ends. Deadlines use the application
+timezone and do not extend on retries. Redis expiration failures report command
+failure after database commit; retrying is safe. Existing historical keys are
+not scanned or removed by the migration; audit and expire legacy keys separately
+after confirming their database snapshots have been persisted.
+
+Verify daily row uniqueness, the retained archive and Redis TTLs before
+restarting writers. Rollback removes the unique constraint but deliberately
+keeps the archive and deduplicated data. Restoring the exact original dataset
+requires the pre-deployment backup; do not automatically reinsert archived rows
+over newer statistics. Keep the archive until your retention policy permits
+removal.
+
 ## v2.1.0 to v2.2.0
 
 This release modernizes the frontend toolchain. It replaces Laravel Mix with

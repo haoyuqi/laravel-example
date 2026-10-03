@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Support\RedisFailureLogger;
+use App\Support\VisitorStatisticsRetention;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
@@ -23,11 +24,14 @@ class CountPvAndUv
         $ip = $request->getClientIp();
 
         try {
-            $uvKey = 'uv_set_'.now()->toDateString();
+            $date = now();
+            $uvKey = 'uv_set_'.$date->toDateString();
             Redis::sadd($uvKey, $ip);
+            Redis::expireat($uvKey, VisitorStatisticsRetention::expiresAt($date));
 
-            $pvKey = 'pv_count_'.now()->toDateString();
+            $pvKey = 'pv_count_'.$date->toDateString();
             Redis::incr($pvKey);
+            Redis::expireat($pvKey, VisitorStatisticsRetention::expiresAt($date));
         } catch (\Throwable $e) {
             RedisFailureLogger::report('pv/uv count failure', [
                 'ip' => $ip,
