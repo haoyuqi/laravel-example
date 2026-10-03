@@ -48,6 +48,7 @@ class CountPvAndUvRedisFailureTest extends TestCase
         Redis::shouldReceive('sadd')
             ->once()
             ->andThrow(new \RuntimeException('Redis sadd failed'));
+        Redis::shouldReceive('expireat')->twice()->andReturn(0);
 
         $middleware = new CountPvAndUv;
         $response = $middleware->handle($request, fn () => new Response('ok', 200));
@@ -67,10 +68,10 @@ class CountPvAndUvRedisFailureTest extends TestCase
             ));
 
         Redis::shouldReceive('sadd')->once()->andReturn(1);
-        Redis::shouldReceive('expireat')->once()->andReturn(1);
         Redis::shouldReceive('incr')
             ->once()
             ->andThrow(new \RuntimeException('Redis incr failed'));
+        Redis::shouldReceive('expireat')->twice()->andReturn(1);
 
         $middleware = new CountPvAndUv;
         $response = $middleware->handle($request, fn () => new Response('ok', 200));
@@ -87,6 +88,7 @@ class CountPvAndUvRedisFailureTest extends TestCase
         Redis::shouldReceive('sadd')
             ->once()
             ->andThrow(new \RuntimeException('Connection refused'));
+        Redis::shouldReceive('expireat')->twice()->andReturn(0);
 
         Log::shouldReceive('warning')
             ->once()
@@ -133,8 +135,10 @@ class CountPvAndUvRedisFailureTest extends TestCase
     public function test_expiration_failure_does_not_fail_the_page_request(): void
     {
         Redis::shouldReceive('sadd')->once()->andReturn(1);
-        Redis::shouldReceive('expireat')->once()->andThrow(new \RuntimeException('Expiration failed'));
-        Log::shouldReceive('warning')->once()->with('pv/uv count failure', \Mockery::type('array'));
+        Redis::shouldReceive('incr')->once()->andReturn(1);
+        Redis::shouldReceive('expireat')->once()->with($this->uvKey, \Mockery::type('int'))->andThrow(new \RuntimeException('Expiration failed'));
+        Redis::shouldReceive('expireat')->once()->with($this->pvKey, \Mockery::type('int'))->andReturn(1);
+        Log::shouldReceive('warning')->once()->with('pv/uv expiration failure', \Mockery::type('array'));
         $request = Request::create('/test-pv-uv', 'GET', server: ['REMOTE_ADDR' => '198.51.100.204']);
         $response = (new CountPvAndUv)->handle($request, fn () => new Response('ok', 200));
         $this->assertSame(200, $response->getStatusCode());

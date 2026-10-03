@@ -22,21 +22,31 @@ class CountPvAndUv
         }
 
         $ip = $request->getClientIp();
+        $date = now();
+        $uvKey = 'uv_set_'.$date->toDateString();
+        $pvKey = 'pv_count_'.$date->toDateString();
 
         try {
-            $date = now();
-            $uvKey = 'uv_set_'.$date->toDateString();
             Redis::sadd($uvKey, $ip);
-            Redis::expireat($uvKey, VisitorStatisticsRetention::expiresAt($date));
-
-            $pvKey = 'pv_count_'.$date->toDateString();
             Redis::incr($pvKey);
-            Redis::expireat($pvKey, VisitorStatisticsRetention::expiresAt($date));
         } catch (\Throwable $e) {
             RedisFailureLogger::report('pv/uv count failure', [
                 'ip' => $ip,
                 'error' => $e->getMessage(),
             ]);
+        }
+
+        // Maintain retention even if only one counter was successfully written.
+        // TTL failures must not skip valid counts or the other key's expiration.
+        foreach ([$uvKey, $pvKey] as $key) {
+            try {
+                Redis::expireat($key, VisitorStatisticsRetention::expiresAt($date));
+            } catch (\Throwable $e) {
+                RedisFailureLogger::report('pv/uv expiration failure', [
+                    'key' => $key,
+                    'error' => $e->getMessage(),
+                ]);
+            }
         }
 
         return $next($request);

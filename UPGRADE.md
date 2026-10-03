@@ -25,6 +25,12 @@ soft-delete state, is retained in `visitor_statistics_duplicates`.
 After migration, `save:visits-count` atomically upserts yesterday's PV/UV pair.
 Repeating it updates the same rows and restores a soft-deleted row when a fresh
 snapshot is available. Missing Redis snapshots leave existing statistics alone.
+Before updating, the command locks both daily rows (including soft-deleted rows)
+and rejects the entire pair if either incoming cumulative count is lower than
+the saved value. This prevents a partial Redis recovery or stale concurrent run
+from reducing persisted counts. Such a failure needs investigation; a syntactically
+valid counter is not proof of a complete snapshot. This guard does not prove the
+completeness of a first-ever snapshot or recover visits lost during an outage.
 Both newly counted and successfully persisted Redis keys expire at midnight
 eight calendar days after their statistics date: seven complete days are
 available for retries after that date ends. Deadlines use the application
@@ -32,6 +38,14 @@ timezone and do not extend on retries. Redis expiration failures report command
 failure after database commit; retrying is safe. Existing historical keys are
 not scanned or removed by the migration; audit and expire legacy keys separately
 after confirming their database snapshots have been persisted.
+
+The default command processes yesterday. To retry an older retained day, use
+`php artisan save:visits-count --date=2026-10-01` with the desired date in the
+application timezone. Dates must be strict `YYYY-MM-DD`, earlier than today,
+and before their fixed expiration deadline; today, future dates and expired
+days are rejected without reading Redis or modifying statistics. Retries never
+extend the deadline. Request counting completes both counter operations before
+attempting TTL maintenance; failure to expire one key does not skip the other.
 
 Verify daily row uniqueness, the retained archive and Redis TTLs before
 restarting writers. Rollback removes the unique constraint but deliberately
