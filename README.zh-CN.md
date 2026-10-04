@@ -7,7 +7,7 @@
 
 <p align="center">
   <a href="https://github.com/haoyuqi/laravel-backend-lab/actions/workflows/tests.yml"><img alt="测试状态" src="https://github.com/haoyuqi/laravel-backend-lab/actions/workflows/tests.yml/badge.svg?branch=master"></a>
-  <a href="https://www.php.net/"><img alt="PHP 8.3 或更高版本" src="https://img.shields.io/badge/PHP-%5E8.3-777BB4?logo=php&logoColor=white"></a>
+  <a href="https://www.php.net/"><img alt="PHP 8.4 或更高版本" src="https://img.shields.io/badge/PHP-%5E8.4-777BB4?logo=php&logoColor=white"></a>
   <a href="https://laravel.com/"><img alt="Laravel 13" src="https://img.shields.io/badge/Laravel-13.x-FF2D20?logo=laravel&logoColor=white"></a>
   <a href="https://filamentphp.com/"><img alt="Filament 3" src="https://img.shields.io/badge/Filament-3.x-FDAE4B"></a>
   <a href="LICENSE"><img alt="MIT 许可证" src="https://img.shields.io/github/license/haoyuqi/laravel-backend-lab"></a>
@@ -45,7 +45,7 @@ Laravel 后端构建。项目在同一代码库中整合了管理后台、访客
 
 | 组件 | 版本 | 用途 |
 | --- | --- | --- |
-| [PHP](https://www.php.net/) | 8.3+ | 应用运行环境 |
+| [PHP](https://www.php.net/) | 8.4+ | 应用运行环境 |
 | [Laravel](https://laravel.com/) | 13.x | Web 应用框架 |
 | [Filament](https://filamentphp.com/) | 3.x | 管理后台 |
 | [Laravel Horizon](https://laravel.com/docs/horizon) | 5.x | Redis 队列监控 |
@@ -60,7 +60,7 @@ Laravel 后端构建。项目在同一代码库中整合了管理后台、访客
 
 应用需要：
 
-- PHP 8.3 或更高版本，以及 `composer.lock` 所要求的 PHP 扩展；
+- PHP 8.4 或更高版本，以及 `composer.lock` 所要求的 PHP 扩展；
 - Composer 2；
 - Node.js 20 和 npm；
 - SQLite、MySQL 或 PostgreSQL，用于持久化应用数据；
