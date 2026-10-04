@@ -9,7 +9,7 @@
   <a href="https://github.com/haoyuqi/laravel-backend-lab/actions/workflows/tests.yml"><img alt="测试状态" src="https://github.com/haoyuqi/laravel-backend-lab/actions/workflows/tests.yml/badge.svg?branch=master"></a>
   <a href="https://www.php.net/"><img alt="PHP 8.4 或更高版本" src="https://img.shields.io/badge/PHP-%5E8.4-777BB4?logo=php&logoColor=white"></a>
   <a href="https://laravel.com/"><img alt="Laravel 13" src="https://img.shields.io/badge/Laravel-13.x-FF2D20?logo=laravel&logoColor=white"></a>
-  <a href="https://filamentphp.com/"><img alt="Filament 3" src="https://img.shields.io/badge/Filament-3.x-FDAE4B"></a>
+  <a href="https://filamentphp.com/"><img alt="Filament 5" src="https://img.shields.io/badge/Filament-5.x-FDAE4B"></a>
   <a href="LICENSE"><img alt="MIT 许可证" src="https://img.shields.io/github/license/haoyuqi/laravel-backend-lab"></a>
 </p>
 
@@ -47,7 +47,7 @@ Laravel 后端构建。项目在同一代码库中整合了管理后台、访客
 | --- | --- | --- |
 | [PHP](https://www.php.net/) | 8.4+ | 应用运行环境 |
 | [Laravel](https://laravel.com/) | 13.x | Web 应用框架 |
-| [Filament](https://filamentphp.com/) | 3.x | 管理后台 |
+| [Filament](https://filamentphp.com/) | 5.x | 管理后台 |
 | [Laravel Horizon](https://laravel.com/docs/horizon) | 5.x | Redis 队列监控 |
 | [Laravel Telescope](https://laravel.com/docs/telescope) | 5.x | 本地应用观测 |
 | [Laravel Lang](https://laravel-lang.com/) | 6.x | 应用语言包 |

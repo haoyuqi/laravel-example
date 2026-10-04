@@ -9,7 +9,7 @@
   <a href="https://github.com/haoyuqi/laravel-backend-lab/actions/workflows/tests.yml"><img alt="Tests" src="https://github.com/haoyuqi/laravel-backend-lab/actions/workflows/tests.yml/badge.svg?branch=master"></a>
   <a href="https://www.php.net/"><img alt="PHP 8.4 or later" src="https://img.shields.io/badge/PHP-%5E8.4-777BB4?logo=php&logoColor=white"></a>
   <a href="https://laravel.com/"><img alt="Laravel 13" src="https://img.shields.io/badge/Laravel-13.x-FF2D20?logo=laravel&logoColor=white"></a>
-  <a href="https://filamentphp.com/"><img alt="Filament 3" src="https://img.shields.io/badge/Filament-3.x-FDAE4B"></a>
+  <a href="https://filamentphp.com/"><img alt="Filament 5" src="https://img.shields.io/badge/Filament-5.x-FDAE4B"></a>
   <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/github/license/haoyuqi/laravel-backend-lab"></a>
 </p>
 
@@ -52,7 +52,7 @@ The application health endpoint is available at `/up`.
 | --- | --- | --- |
 | [PHP](https://www.php.net/) | 8.4+ | Application runtime |
 | [Laravel](https://laravel.com/) | 13.x | Web application framework |
-| [Filament](https://filamentphp.com/) | 3.x | Administration panel |
+| [Filament](https://filamentphp.com/) | 5.x | Administration panel |
 | [Laravel Horizon](https://laravel.com/docs/horizon) | 5.x | Redis queue monitoring |
 | [Laravel Telescope](https://laravel.com/docs/telescope) | 5.x | Local application inspection |
 | [Laravel Lang](https://laravel-lang.com/) | 6.x | Application translations |
