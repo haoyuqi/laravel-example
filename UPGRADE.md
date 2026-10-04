@@ -6,7 +6,7 @@ This upgrade modernizes the administrative panel by upgrading Filament from `^3.
 
 ### Preconditions
 
-- PHP >= 8.3 and Laravel 13.x.
+- PHP >= 8.4 and Laravel 13.x.
 - Clean working directory on branch derived from `develop`.
 - Baseline tests passing (`php artisan test`).
 - No custom third-party Filament plugins installed.

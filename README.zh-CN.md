@@ -47,7 +47,7 @@ Laravel 后端构建。项目在同一代码库中整合了管理后台、访客
 | --- | --- | --- |
 | [PHP](https://www.php.net/) | 8.4+ | 应用运行环境 |
 | [Laravel](https://laravel.com/) | 13.x | Web 应用框架 |
-| [Filament](https://filamentphp.com/) | 3.x | 管理后台 |
+| [Filament](https://filamentphp.com/) | 5.x | 管理后台 |
 | [Laravel Horizon](https://laravel.com/docs/horizon) | 5.x | Redis 队列监控 |
 | [Laravel Telescope](https://laravel.com/docs/telescope) | 5.x | 本地应用观测 |
 | [Laravel Lang](https://laravel-lang.com/) | 6.x | 应用语言包 |
