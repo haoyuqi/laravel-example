@@ -56,10 +56,10 @@ resolution of review conversations. These rules also apply to administrators;
 do not push directly to `develop`. Reviewer approvals are not mandatory so the
 maintainer can merge their own pull requests after validation.
 
-The required checks retain their existing names:
+The required checks match the current `develop` test matrix:
 
-*   `PHP tests (PHP 8.3, sqlite default)`
-*   `PHP tests (PHP 8.3, postgres 18)`
+*   `PHP tests (PHP 8.4, sqlite default)`
+*   `PHP tests (PHP 8.4, postgres 18)`
 *   `Laravel Pint`
 
 Promote releases through a `develop` → `master` pull request, then create the
